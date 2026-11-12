@@ -1,0 +1,18 @@
+# Virtual Environment
+.venv/
+venv/
+env/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Vercel & Deployments
+.vercel/
+
+# Temporary files
+.php-preview-router.php
+mini_gpt_base.pt

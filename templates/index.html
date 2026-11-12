@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Bangla Mini-GPT | Gemini Style AI</title>
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-primary: #131314;
+            --bg-secondary: #1e1f20;
+            --bg-tertiary: #282a2c;
+            --bg-card: #1e1f20;
+            --bg-input: #282a2c;
+            --border-color: #3c4043;
+            --text-main: #e3e3e3;
+            --text-muted: #9aa0a6;
+            --accent-gemini-gradient: linear-gradient(135deg, #4285f4, #9b72cb, #d96570);
+            --accent-glow: rgba(66, 133, 244, 0.25);
+            --sidebar-width: 270px;
+        }
+
+        html.light {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f0f4f9;
+            --bg-tertiary: #e3e8ee;
+            --bg-card: #f8fafd;
+            --bg-input: #f0f4f9;
+            --border-color: #dfe3e7;
+            --text-main: #1f1f1f;
+            --text-muted: #5f6368;
+            --accent-glow: rgba(66, 133, 244, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Hind Siliguri', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            transition: background-color 0.25s, color 0.25s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 50;
+            flex-shrink: 0;
+        }
+
+        .sidebar.collapsed {
+            margin-left: calc(-1 * var(--sidebar-width));
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 95;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .close-sidebar-btn {
+            display: none;
+        }
+
+        .sidebar-header {
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-toggle-btn {
+            flex-shrink: 0;
+            color: var(--text-muted);
+        }
+
+        .sidebar-toggle-btn:hover {
+            color: var(--text-main);
+            background: var(--bg-tertiary);
+        }
+
+        .new-chat-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 9px 14px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            color: var(--text-main);
+            font-size: 13.5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .new-chat-btn:hover {
+            background: var(--border-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .chat-history {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .history-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            padding: 8px 10px 4px;
+            font-weight: 600;
+        }
+
+        .history-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            border-radius: 10px;
+            color: var(--text-main);
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.15s;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .history-item:hover, .history-item.active {
+            background: var(--bg-tertiary);
+        }
+
+        .history-item i {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .sidebar-footer {
+            padding: 16px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Controls inside sidebar */
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--border-color);
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #4285f4;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .model-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--text-muted);
+            padding: 6px 10px;
+            border-radius: 8px;
+            background: var(--bg-primary);
+        }
+
+        .model-badge .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10a37f;
+            box-shadow: 0 0 6px #10a37f;
+        }
+
+        /* Main Workspace */
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* Top Navigation Bar */
+        .top-navbar {
+            height: 56px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid transparent;
+            z-index: 10;
+        }
+
+        .top-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .icon-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover {
+            background: var(--bg-secondary);
+            color: var(--text-main);
+        }
+
+        .brand-title {
+            font-size: 18px;
+            font-weight: 600;
+            background: var(--accent-gemini-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Chat Messages Container */
+        .chat-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            scroll-behavior: smooth;
+        }
+
+        .chat-max-width {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Hero / Welcome Screen */
+        .welcome-hero {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin: auto 0;
+            padding: 40px 0;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-sparkle {
+            font-size: 40px;
+            margin-bottom: 12px;
+            background: var(--accent-gemini-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-title {
+            font-size: 44px;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 8px;
+            background: var(--accent-gemini-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 34px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 36px;
+        }
+
+        .suggestion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            width: 100%;
+        }
+
+        .suggestion-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 110px;
+        }
+
+        .suggestion-card:hover {
+            background: var(--bg-tertiary);
+            border-color: #5c6269;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+
+        .suggestion-card .text {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+
+        .suggestion-card .icon {
+            align-self: flex-end;
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        /* Message Bubbles */
+        .message-row {
+            display: flex;
+            gap: 16px;
+            width: 100%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .message-row.user {
+            justify-content: flex-end;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .avatar.gemini {
+            background: var(--accent-gemini-gradient);
+            color: white;
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .avatar.user {
+            background: #2563eb;
+            color: white;
+        }
+
+        .message-body {
+            max-width: 85%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .message-row.user .message-body {
+            align-items: flex-end;
+        }
+
+        .message-bubble {
+            padding: 12px 18px;
+            border-radius: 18px;
+            font-size: 15px;
+            line-height: 1.6;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+
+        .message-row.user .message-bubble {
+            background: var(--bg-tertiary);
+            color: var(--text-main);
+            border-bottom-right-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .message-row.gemini .message-bubble {
+            background: transparent;
+            color: var(--text-main);
+            padding: 4px 0 12px 0;
+            width: 100%;
+        }
+
+        .message-actions {
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .message-row:hover .message-actions {
+            opacity: 1;
+        }
+
+        .action-mini-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            transition: all 0.15s;
+        }
+
+        .action-mini-btn:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-main);
+        }
+
+        /* Cursor Blinking for streaming text */
+        .cursor-blink {
+            display: inline-block;
+            width: 7px;
+            height: 17px;
+            background: #4285f4;
+            vertical-align: middle;
+            margin-left: 3px;
+            border-radius: 1px;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Input Area at Bottom */
+        .bottom-container {
+            width: 100%;
+            padding: 0 20px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(180deg, transparent, var(--bg-primary) 30%);
+        }
+
+        /* Persona Mode Selector Strip */
+        .persona-strip {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+            justify-content: center;
+            max-width: 800px;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding: 2px 4px;
+        }
+
+        .persona-strip::-webkit-scrollbar {
+            display: none;
+        }
+
+        .mode-pill {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .mode-pill:hover {
+            border-color: #4285f4;
+            color: var(--text-main);
+            transform: translateY(-1px);
+        }
+
+        .mode-pill.active {
+            background: var(--bg-tertiary);
+            border-color: #4285f4;
+            color: #4285f4;
+            font-weight: 600;
+            box-shadow: 0 0 10px rgba(66, 133, 244, 0.25);
+        }
+
+        .input-box-wrapper {
+            width: 100%;
+            max-width: 800px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 28px;
+            padding: 8px 16px 8px 22px;
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .input-box-wrapper:focus-within {
+            border-color: #4285f4;
+            box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.25);
+        }
+
+        .chat-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-main);
+            font-size: 15px;
+            line-height: 1.5;
+            resize: none;
+            max-height: 180px;
+            min-height: 24px;
+            padding: 6px 0;
+        }
+
+        .chat-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .send-btn {
+            background: var(--text-main);
+            color: var(--bg-primary);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            flex-shrink: 0;
+            margin-bottom: 2px;
+        }
+
+        .send-btn:disabled {
+            background: var(--border-color);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .send-btn:not(:disabled):hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 10px rgba(66, 133, 244, 0.4);
+        }
+
+        .footer-disclaimer {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* Live Training Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 680px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            animation: modalSlide 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes modalSlide {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .progress-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4285f4, #9b72cb);
+            transition: width 0.3s ease;
+        }
+
+        .dialogue-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .dialogue-pill {
+            align-self: flex-start;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 10px;
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+        }
+
+        .dialogue-bubble {
+            font-size: 13px;
+            line-height: 1.5;
+            padding: 8px 12px;
+            border-radius: 10px;
+        }
+
+        .dialogue-bubble.teacher {
+            background: rgba(66, 133, 244, 0.15);
+            border-left: 3px solid #4285f4;
+        }
+
+        .dialogue-bubble.student {
+            background: rgba(234, 67, 53, 0.12);
+            border-left: 3px solid #ea4335;
+        }
+
+        .dialogue-bubble.gold {
+            background: rgba(52, 168, 83, 0.15);
+            border-left: 3px solid #34a853;
+        }
+
+        .log-terminal {
+            background: #0d0e0f;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            color: #a8b3cf;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        /* Mobile & Tablet Responsive Enhancements */
+        @media (max-width: 768px) {
+            :root {
+                --sidebar-width: 280px;
+            }
+
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                height: 100%;
+                height: 100dvh;
+                z-index: 100;
+                box-shadow: 4px 0 24px rgba(0, 0, 0, 0.6);
+                transform: translateX(0);
+                margin-left: 0;
+                transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .sidebar.collapsed {
+                transform: translateX(-100%);
+                margin-left: 0;
+                box-shadow: none;
+            }
+
+            .close-sidebar-btn {
+                display: flex;
+            }
+
+            .sidebar-header {
+                gap: 8px;
+                padding: 12px 14px;
+            }
+
+            /* Top Navbar */
+            .top-navbar {
+                height: 52px;
+                padding: 0 10px;
+            }
+
+            .brand-title {
+                font-size: 15px;
+                gap: 6px;
+            }
+
+            .brand-title span {
+                max-width: 140px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .icon-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+            }
+
+            .top-left {
+                gap: 6px;
+            }
+
+            .top-right {
+                gap: 4px;
+            }
+
+            /* Chat Container */
+            .chat-content {
+                padding: 12px 10px;
+                scroll-behavior: auto;
+            }
+
+            .chat-max-width {
+                gap: 16px;
+            }
+
+            /* Welcome Hero */
+            .welcome-hero {
+                padding: 12px 6px 20px 6px;
+                margin: auto 0;
+            }
+
+            .hero-sparkle {
+                font-size: 26px;
+                margin-bottom: 4px;
+            }
+
+            .hero-title {
+                font-size: 26px;
+                margin-bottom: 4px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+                margin-bottom: 20px;
+            }
+
+            .suggestion-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .suggestion-card {
+                padding: 12px 14px;
+                min-height: auto;
+                flex-direction: row;
+                align-items: center;
+                border-radius: 12px;
+                gap: 12px;
+            }
+
+            .suggestion-card .text {
+                font-size: 13.5px;
+            }
+
+            .suggestion-card .icon {
+                align-self: center;
+                font-size: 14px;
+            }
+
+            /* Messages */
+            .message-row {
+                gap: 8px;
+            }
+
+            .avatar {
+                width: 30px;
+                height: 30px;
+                font-size: 13px;
+            }
+
+            .message-body {
+                max-width: 88%;
+            }
+
+            .message-bubble {
+                padding: 10px 14px;
+                font-size: 14px;
+                line-height: 1.55;
+                border-radius: 16px;
+            }
+
+            .message-actions {
+                opacity: 0.95;
+                margin-top: 2px;
+            }
+
+            .action-mini-btn {
+                padding: 4px 8px;
+                font-size: 11px;
+            }
+
+            /* Bottom Input Container */
+            .bottom-container {
+                padding: 0 10px max(10px, env(safe-area-inset-bottom));
+                background: linear-gradient(180deg, transparent, var(--bg-primary) 15%);
+            }
+
+            .persona-strip {
+                justify-content: flex-start;
+                padding: 2px 2px 6px 2px;
+                margin-bottom: 6px;
+            }
+
+            .mode-pill {
+                font-size: 12px;
+                padding: 5px 12px;
+                border-radius: 16px;
+            }
+
+            .input-box-wrapper {
+                padding: 6px 8px 6px 14px;
+                border-radius: 24px;
+                gap: 8px;
+            }
+
+            .chat-input {
+                font-size: 16px; /* Prevents auto-zoom on iOS */
+                max-height: 120px;
+                padding: 5px 0;
+            }
+
+            .send-btn {
+                width: 36px;
+                height: 36px;
+            }
+
+            .footer-disclaimer {
+                font-size: 10px;
+                margin-top: 6px;
+                line-height: 1.3;
+                padding: 0 4px;
+            }
+
+            /* Live Training Modal */
+            .modal-overlay {
+                padding: 10px;
+            }
+
+            .modal-container {
+                max-height: 92vh;
+                max-height: 92dvh;
+                border-radius: 16px;
+            }
+
+            .modal-header {
+                padding: 12px 14px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .modal-title {
+                font-size: 13.5px;
+                gap: 6px;
+            }
+
+            .modal-body {
+                padding: 14px 12px;
+                gap: 12px;
+            }
+
+            .dialogue-card {
+                padding: 10px;
+                border-radius: 12px;
+                gap: 6px;
+            }
+
+            .dialogue-bubble {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+
+            .log-terminal {
+                max-height: 90px;
+                font-size: 11px;
+                padding: 8px 10px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .brand-title span {
+                max-width: 110px;
+            }
+            .mode-pill {
+                font-size: 11.5px;
+                padding: 4px 10px;
+            }
+            .hero-title {
+                font-size: 22px;
+            }
+            .hero-subtitle {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Overlay for mobile sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <button class="icon-btn sidebar-toggle-btn" onclick="toggleSidebar()" title="সাইডবার লুকান">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <button class="new-chat-btn" onclick="startNewChat()">
+                <i class="fa-solid fa-plus"></i>
+                <span>নতুন চ্যাট (New Chat)</span>
+            </button>
+            <button class="icon-btn close-sidebar-btn" onclick="toggleSidebar()" title="সাইডবার বন্ধ করুন">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="chat-history" id="chatHistory">
+            <div class="history-label">সাম্প্রতিক চ্যাট</div>
+            <div class="history-item active" onclick="startNewChat()">
+                <i class="fa-regular fa-message"></i>
+                বর্তমান সেশন
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="control-group">
+                <div class="control-label">
+                    <span>তাপমাত্রা (Temperature)</span>
+                    <span id="tempValue">0.4</span>
+                </div>
+                <input type="range" min="0.1" max="1.5" step="0.1" value="0.4" class="slider" id="tempSlider" oninput="updateTemp(this.value)">
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    <span>সর্বোচ্চ টোকেন (Max Tokens)</span>
+                    <span id="tokensValue">300</span>
+                </div>
+                <input type="range" min="50" max="600" step="50" value="300" class="slider" id="tokensSlider" oninput="updateTokens(this.value)">
+            </div>
+
+            <button class="new-chat-btn" onclick="openLiveTrainModal()" id="autoTrainBtn" style="border-radius: 12px; justify-content: center; background: linear-gradient(135deg, rgba(66, 133, 244, 0.2), rgba(155, 114, 203, 0.2)); border-color: rgba(66, 133, 244, 0.5); margin-bottom: 4px; box-shadow: 0 0 12px rgba(66, 133, 244, 0.2);">
+                <i class="fa-solid fa-graduation-cap" style="color: #4285f4;"></i>
+                <span id="autoTrainText" style="font-weight: 600;">🎓 লাইভ AI ট্রেইনিং দেখুন</span>
+            </button>
+
+            <div class="model-badge">
+                <div class="dot"></div>
+                <span>Bangla Mini-GPT (1.96M)</span>
+            </div>
+        </div>
+    </aside>
+    <script>
+        if (window.innerWidth <= 768) {
+            document.getElementById('sidebar').classList.add('collapsed');
+        }
+    </script>
+
+    <!-- Main Workspace -->
+    <main class="main-container">
+        <!-- Top Navbar -->
+        <header class="top-navbar">
+            <div class="top-left">
+                <button class="icon-btn" onclick="toggleSidebar()" title="সাইডবার টগল করুন">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="brand-title">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Bangla Mini-GPT</span>
+                </div>
+            </div>
+            <div class="top-right">
+                <button class="icon-btn" onclick="exportChat()" title="চ্যাট ডাউনলোড করুন">
+                    <i class="fa-solid fa-arrow-down-to-bracket"></i>
+                </button>
+                <button class="icon-btn" onclick="toggleTheme()" title="ডার্ক/লাইট থিম">
+                    <i class="fa-regular fa-moon" id="themeIcon"></i>
+                </button>
+                <button class="icon-btn" onclick="clearMessages()" title="কথোপকথন মুছুন">
+                    <i class="fa-regular fa-trash-can"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Chat Messages Area -->
+        <div class="chat-content" id="chatContainer">
+            <div class="chat-max-width" id="messagesList">
+                
+                <!-- Welcome Hero Screen (visible when chat is empty) -->
+                <div class="welcome-hero" id="welcomeHero">
+                    <div class="hero-sparkle"><i class="fa-solid fa-sparkles"></i> ✨</div>
+                    <h1 class="hero-title">স্বাগতম!</h1>
+                    <h2 class="hero-subtitle">আমি আপনাকে কীভাবে সাহায্য করতে পারি?</h2>
+
+                    <div class="suggestion-grid">
+                        <div class="suggestion-card" onclick="sendSuggestion('কেমন আছেন?')">
+                            <div class="text">কেমন আছেন?</div>
+                            <div class="icon"><i class="fa-regular fa-comments"></i></div>
+                        </div>
+                        <div class="suggestion-card" onclick="sendSuggestion('তুমি কে?')">
+                            <div class="text">তুমি কে এবং কি করতে পারো?</div>
+                            <div class="icon"><i class="fa-solid fa-robot"></i></div>
+                        </div>
+                        <div class="suggestion-card" onclick="sendSuggestion('বাংলাদেশের রাজধানী কি?')">
+                            <div class="text">বাংলাদেশের রাজধানী কি?</div>
+                            <div class="icon"><i class="fa-solid fa-earth-asia"></i></div>
+                        </div>
+                        <div class="suggestion-card" onclick="sendSuggestion('কৃত্রিম বুদ্ধিমত্তা কি?')">
+                            <div class="text">কৃত্রিম বুদ্ধিমত্তা কি?</div>
+                            <div class="icon"><i class="fa-solid fa-microchip"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Floating Bottom Input Box -->
+        <div class="bottom-container">
+            <!-- Persona Selector Strip -->
+            <div class="persona-strip">
+                <button class="mode-pill active" onclick="setMode('ai')" id="pill-ai">
+                    🤖 সাধারণ এআই
+                </button>
+                <button class="mode-pill" onclick="setMode('friend')" id="pill-friend">
+                    👫 বন্ধু মোড (Friend)
+                </button>
+                <button class="mode-pill" onclick="setMode('gf')" id="pill-gf">
+                    ❤️ প্রেমিকা (GF Mode)
+                </button>
+                <button class="mode-pill" onclick="setMode('wife')" id="pill-wife">
+                    💍 বউ মোড (Wife)
+                </button>
+            </div>
+
+            <div class="input-box-wrapper">
+                <textarea 
+                    id="chatInput" 
+                    class="chat-input" 
+                    placeholder="Mini-GPT কে কিছু জিজ্ঞাসা করুন..." 
+                    rows="1"
+                    onkeydown="handleKeyDown(event)"
+                    oninput="autoResize(this)"
+                ></textarea>
+                <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="সেন্ড করুন">
+                    <i class="fa-solid fa-arrow-up"></i>
+                </button>
+            </div>
+            <div class="footer-disclaimer">
+                Mini-GPT ভুল করতে পারে। ক্যারেক্টার-লেভেল মডেল দ্বারা উৎপন্ন তথ্য যাচাই করে নিন।
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let isGenerating = false;
+        let controller = null;
+        let currentMode = 'ai';
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-pill').forEach(p => p.classList.remove('active'));
+            const activePill = document.getElementById('pill-' + mode);
+            if (activePill) activePill.classList.add('active');
+
+            const input = document.getElementById('chatInput');
+            if (mode === 'gf') {
+                input.placeholder = "তোমার বাবুর সাথে মিষ্টি করে কথা বলো... (যেমন: কেমন আছো?, খেয়েছো?)";
+            } else if (mode === 'friend') {
+                input.placeholder = "দোস্তকে কিছু বল... (যেমন: কিরে কেমন আছিস?, কি খবর দোস্ত?)";
+            } else if (mode === 'wife') {
+                input.placeholder = "বউকে কিছু বলো... (যেমন: কেমন আছো গো?, কখন ফিরবে?)";
+            } else {
+                input.placeholder = "Mini-GPT কে কিছু জিজ্ঞাসা করুন...";
+            }
+        }
+
+        // Auto resize textarea
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 180) + 'px';
+            const sendBtn = document.getElementById('sendBtn');
+            sendBtn.disabled = !textarea.value.trim() && !isGenerating;
+        }
+
+        // Check Mobile View & Auto-Collapse Sidebar
+        function checkMobileView() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            if (window.innerWidth <= 768) {
+                if (sidebar) sidebar.classList.add('collapsed');
+                if (overlay) overlay.classList.remove('active');
+            }
+        }
+
+        // Close sidebar on mobile action
+        function closeMobileSidebar() {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebarOverlay');
+                if (sidebar) sidebar.classList.add('collapsed');
+                if (overlay) overlay.classList.remove('active');
+            }
+        }
+
+        // Toggle Sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('collapsed');
+
+            if (window.innerWidth <= 768) {
+                if (!sidebar.classList.contains('collapsed')) {
+                    if (overlay) overlay.classList.add('active');
+                } else {
+                    if (overlay) overlay.classList.remove('active');
+                }
+            }
+        }
+
+        // Window resize listener
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                const overlay = document.getElementById('sidebarOverlay');
+                if (overlay) overlay.classList.remove('active');
+            }
+        });
+
+        // Initialize on load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', checkMobileView);
+        } else {
+            checkMobileView();
+        }
+
+        // Toggle Theme
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('themeIcon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                html.classList.remove('light');
+                html.classList.add('dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        }
+
+        // Update Sliders
+        function updateTemp(val) {
+            document.getElementById('tempValue').innerText = val;
+        }
+
+        function updateTokens(val) {
+            document.getElementById('tokensValue').innerText = val;
+        }
+
+        // Handle Enter key (Shift+Enter for newline)
+        function handleKeyDown(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        }
+
+        // Send suggestion card
+        function sendSuggestion(text) {
+            document.getElementById('chatInput').value = text;
+            autoResize(document.getElementById('chatInput'));
+            sendMessage();
+        }
+
+        // Start New Chat
+        function startNewChat() {
+            if (isGenerating && controller) {
+                controller.abort();
+            }
+            clearMessages();
+            closeMobileSidebar();
+        }
+
+        // Clear Messages
+        function clearMessages() {
+            const list = document.getElementById('messagesList');
+            list.innerHTML = `
+                <div class="welcome-hero" id="welcomeHero">
+                    <div class="hero-sparkle">✨</div>
+                    <h1 class="hero-title">স্বাগতম!</h1>
+                    <h2 class="hero-subtitle">আমি আপনাকে কীভাবে সাহায্য করতে পারি?</h2>
+                    <div class="suggestion-grid">
+                        <div class="suggestion-card" onclick="sendSuggestion('কেমন আছেন?')">
+                            <div class="text">কেমন আছেন?</div>
+                            <div class="icon"><i class="fa-regular fa-comments"></i></div>
+                        </div>
+                        <div class="suggestion-card" onclick="sendSuggestion('তুমি কে?')">
+                            <div class="text">তুমি কে এবং কি করতে পারো?</div>
+                            <div class="icon"><i class="fa-solid fa-robot"></i></div>
+                        </div>
+                        <div class="suggestion-card" onclick="sendSuggestion('বাংলাদেশের রাজধানী কি?')">
+                            <div class="text">বাংলাদেশের রাজধানী কি?</div>
+                            <div class="icon"><i class="fa-solid fa-earth-asia"></i></div>
+                        </div>
+                        <div class="suggestion-card" onclick="sendSuggestion('কৃত্রিম বুদ্ধিমত্তা কি?')">
+                            <div class="text">কৃত্রিম বুদ্ধিমত্তা কি?</div>
+                            <div class="icon"><i class="fa-solid fa-microchip"></i></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('chatInput').value = '';
+            autoResize(document.getElementById('chatInput'));
+        }
+
+        // Send Message & Stream Response
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const prompt = input.value.trim();
+            if (!prompt || isGenerating) return;
+
+            // Hide hero if visible
+            const hero = document.getElementById('welcomeHero');
+            if (hero) hero.remove();
+
+            // Append User Message
+            appendUserMessage(prompt);
+            input.value = '';
+            autoResize(input);
+
+            // Set UI state to generating
+            isGenerating = true;
+            const sendBtn = document.getElementById('sendBtn');
+            sendBtn.innerHTML = '<i class="fa-solid fa-stop"></i>';
+            sendBtn.onclick = stopGeneration;
+
+            // Create Assistant Message container
+            const bubble = appendGeminiMessageContainer();
+            const cursor = document.createElement('span');
+            cursor.className = 'cursor-blink';
+            bubble.appendChild(cursor);
+
+            const temperature = parseFloat(document.getElementById('tempSlider').value);
+            const maxTokens = parseInt(document.getElementById('tokensSlider').value);
+
+            controller = new AbortController();
+
+            try {
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        mode: currentMode,
+                        temperature: temperature,
+                        max_tokens: maxTokens
+                    }),
+                    signal: controller.signal
+                });
+
+                if (!response.ok) {
+                    throw new Error('সার্ভারে সমস্যা হয়েছে');
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let accumulatedText = "";
+
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value, { stream: true });
+                    const lines = chunk.split('\n');
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const raw = line.slice(6).trim();
+                            if (raw === '[DONE]') {
+                                break;
+                            }
+                            try {
+                                const parsed = JSON.parse(raw);
+                                if (parsed.chunk !== undefined) {
+                                    accumulatedText += parsed.chunk;
+                                    bubble.innerText = accumulatedText;
+                                    bubble.appendChild(cursor);
+                                    scrollToBottom();
+                                }
+                            } catch (e) {
+                                // Fallback for raw text
+                                accumulatedText += raw;
+                                bubble.innerText = accumulatedText;
+                                bubble.appendChild(cursor);
+                                scrollToBottom();
+                            }
+                        }
+                    }
+                }
+            } catch (err) {
+                if (err.name !== 'AbortError') {
+                    bubble.innerText += '\n[ত্রুটি: ' + err.message + ']';
+                }
+            } finally {
+                cursor.remove();
+                isGenerating = false;
+                sendBtn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+                sendBtn.onclick = sendMessage;
+                autoResize(input);
+            }
+        }
+
+        // Stop generation
+        function stopGeneration() {
+            if (controller) {
+                controller.abort();
+            }
+        }
+
+        function appendUserMessage(text) {
+            const list = document.getElementById('messagesList');
+            const row = document.createElement('div');
+            row.className = 'message-row user';
+            row.innerHTML = `
+                <div class="message-body">
+                    <div class="message-bubble">${escapeHtml(text)}</div>
+                </div>
+            `;
+            list.appendChild(row);
+            scrollToBottom();
+        }
+
+        function appendGeminiMessageContainer() {
+            const list = document.getElementById('messagesList');
+            const row = document.createElement('div');
+            row.className = 'message-row gemini';
+            row.innerHTML = `
+                <div class="avatar gemini">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <div class="message-body" style="flex: 1;">
+                    <div class="message-bubble" id="currentResponse"></div>
+                    <div class="message-actions">
+                        <button class="action-mini-btn" onclick="copyText(this)" title="কপি করুন">
+                            <i class="fa-regular fa-copy"></i> কপি
+                        </button>
+                        <button class="action-mini-btn" onclick="speakText(this)" title="উচ্চারণ শুনুন">
+                            <i class="fa-solid fa-volume-high"></i> শুনুন
+                        </button>
+                    </div>
+                </div>
+            `;
+            list.appendChild(row);
+            const bubble = row.querySelector('#currentResponse');
+            bubble.removeAttribute('id');
+            scrollToBottom();
+            return bubble;
+        }
+
+        function copyText(btn) {
+            const text = btn.closest('.message-body').querySelector('.message-bubble').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const original = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> কপি হয়েছে!';
+                setTimeout(() => { btn.innerHTML = original; }, 2000);
+            });
+        }
+
+        function speakText(btn) {
+            const bubble = btn.closest('.message-body').querySelector('.message-bubble');
+            const text = bubble ? bubble.innerText.trim() : '';
+            if (!text || !window.speechSynthesis) return;
+
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+                btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> শুনুন';
+                return;
+            }
+
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = 'bn-BD';
+            utter.rate = 0.95;
+            btn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i> থামান';
+            utter.onend = () => { btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> শুনুন'; };
+            utter.onerror = () => { btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> শুনুন'; };
+            window.speechSynthesis.speak(utter);
+        }
+
+        function exportChat() {
+            const rows = document.querySelectorAll('.message-row');
+            if (!rows.length) {
+                alert('ডাউনলোড করার মতো কোনো চ্যাট নেই!');
+                return;
+            }
+            let text = "=== Bangla Mini-GPT Conversation ===\n\n";
+            rows.forEach(r => {
+                const isUser = r.classList.contains('user');
+                const bubble = r.querySelector('.message-bubble');
+                if (bubble) {
+                    text += (isUser ? "User: " : "Mini-GPT: ") + bubble.innerText + "\n\n";
+                }
+            });
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `mini-gpt-chat-${Date.now()}.txt`;
+            a.click();
+        }
+
+        let trainEventSource = null;
+
+        function openLiveTrainModal() {
+            document.getElementById('trainModal').classList.add('active');
+            startLiveAutoTrain();
+        }
+
+        function closeTrainModal() {
+            document.getElementById('trainModal').classList.remove('active');
+            if (trainEventSource) {
+                trainEventSource.close();
+                trainEventSource = null;
+            }
+        }
+
+        async function stopLiveAutoTrain() {
+            const stopBtn = document.getElementById('stopTrainBtn');
+            stopBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> থামছে...';
+            try {
+                await fetch('/api/stop_auto_train', { method: 'POST' });
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function startLiveAutoTrain() {
+            const dialogueContainer = document.getElementById('dialogueContainer');
+            const logTerminal = document.getElementById('logTerminal');
+            const stepLabel = document.getElementById('trainStepLabel');
+            const lossLabel = document.getElementById('trainLossLabel');
+            const barFill = document.getElementById('progressBarFill');
+            const stopBtn = document.getElementById('stopTrainBtn');
+            const resumeBtn = document.getElementById('resumeTrainBtn');
+
+            stopBtn.style.display = 'flex';
+            stopBtn.innerHTML = '<i class="fa-solid fa-stop"></i> থামান (Stop)';
+            resumeBtn.style.display = 'none';
+
+            dialogueContainer.innerHTML = '';
+            logTerminal.innerText = '> অবিরাম অটো-ট্রেইনিং শুরু হচ্ছে... (স্টপ বাটন চাপলে থামবে)\n';
+            stepLabel.innerText = 'শিক্ষক এআই পরীক্ষা নিচ্ছে...';
+            lossLabel.innerText = 'Loss: --';
+            barFill.style.width = '10%';
+
+            if (trainEventSource) {
+                trainEventSource.close();
+            }
+
+            trainEventSource = new EventSource('/api/stream_auto_train');
+
+            trainEventSource.onmessage = function(e) {
+                try {
+                    const data = JSON.parse(e.data);
+                    if (data.type === 'cycle_start') {
+                        document.getElementById('cycleBadge').innerText = 'সাইকেল #' + data.cycle;
+                        stopBtn.style.display = 'flex';
+                        stopBtn.innerHTML = '<i class="fa-solid fa-stop"></i> থামান (Stop)';
+                        resumeBtn.style.display = 'none';
+                    } else if (data.type === 'log') {
+                        logTerminal.innerText += '> ' + data.text + '\n';
+                        logTerminal.scrollTop = logTerminal.scrollHeight;
+                    } else if (data.type === 'quiz') {
+                        const card = document.createElement('div');
+                        card.className = 'dialogue-card';
+                        card.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span class="dialogue-pill">${escapeHtml(data.mode)}</span>
+                                <span style="font-size: 11px; color: var(--text-muted);">সাইকেল #${data.cycle}</span>
+                            </div>
+                            <div class="dialogue-bubble teacher">
+                                <strong>👨‍🏫 শিক্ষক AI এর প্রশ্ন:</strong> ${escapeHtml(data.question)}
+                            </div>
+                            <div class="dialogue-bubble student">
+                                <strong>🧑‍🎓 ছাত্রের বর্তমান উত্তর:</strong> ${escapeHtml(data.student || '(খালি)')}
+                            </div>
+                            <div class="dialogue-bubble gold">
+                                <strong>💡 শিক্ষকের সঠিক শিক্ষা:</strong> ${escapeHtml(data.gold)}
+                            </div>
+                        `;
+                        // Keep at most 6 cards in container so it doesn't get overloaded
+                        if (dialogueContainer.children.length > 6) {
+                            dialogueContainer.removeChild(dialogueContainer.firstElementChild);
+                        }
+                        dialogueContainer.appendChild(card);
+                        const modalBody = document.querySelector('.modal-body');
+                        modalBody.scrollTop = modalBody.scrollHeight;
+                    } else if (data.type === 'step') {
+                        const pct = Math.round((data.step / data.total) * 100);
+                        barFill.style.width = pct + '%';
+                        stepLabel.innerText = `মডেল শিখছে: Step ${data.step}/${data.total} (সাইকেল #${data.cycle})`;
+                        lossLabel.innerText = `Loss: ${data.loss}`;
+                        logTerminal.innerText += `> [Cycle #${data.cycle}] Step ${data.step}/${data.total} | Loss: ${data.loss}\n`;
+                        logTerminal.scrollTop = logTerminal.scrollHeight;
+                    } else if (data.type === 'cycle_done') {
+                        logTerminal.innerText += '> ' + data.text + '\n';
+                        logTerminal.scrollTop = logTerminal.scrollHeight;
+                    } else if (data.type === 'stopped') {
+                        barFill.style.width = '100%';
+                        stepLabel.innerText = 'ট্রেইনিং স্থগিত রয়েছে (Stopped)';
+                        stopBtn.style.display = 'none';
+                        resumeBtn.style.display = 'flex';
+                        logTerminal.innerText += '> ' + data.text + '\n';
+                        logTerminal.scrollTop = logTerminal.scrollHeight;
+                        if (trainEventSource) {
+                            trainEventSource.close();
+                            trainEventSource = null;
+                        }
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+            };
+
+            trainEventSource.onerror = function() {
+                logTerminal.innerText += '> সেশন শেষ হয়েছে।\n';
+                if (trainEventSource) {
+                    trainEventSource.close();
+                    trainEventSource = null;
+                }
+            };
+        }
+
+        function scrollToBottom() {
+            const container = document.getElementById('chatContainer');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.innerText = text;
+            return div.innerHTML;
+        }
+    </script>
+
+    <!-- Live AI Training Modal -->
+    <div class="modal-overlay" id="trainModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fa-solid fa-graduation-cap" style="color: #4285f4; font-size: 20px;"></i>
+                    <span>লাইভ শিক্ষক-ছাত্র AI অটো-ট্রেইনিং (Continuous)</span>
+                    <span id="cycleBadge" style="padding: 3px 10px; background: rgba(66, 133, 244, 0.2); border-radius: 12px; font-size: 12px; color: #4285f4; font-weight: 600;">সাইকেল #১</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <button id="stopTrainBtn" onclick="stopLiveAutoTrain()" style="background: #ea4335; color: white; border: none; padding: 6px 12px; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 12px;" title="ট্রেইনিং বন্ধ করুন">
+                        <i class="fa-solid fa-stop"></i> থামান (Stop)
+                    </button>
+                    <button id="resumeTrainBtn" onclick="startLiveAutoTrain()" style="background: #34a853; color: white; border: none; padding: 6px 12px; border-radius: 10px; font-weight: 600; cursor: pointer; display: none; align-items: center; gap: 6px; font-size: 12px;" title="ট্রেইনিং পুনরায় চালু করুন">
+                        <i class="fa-solid fa-play"></i> শুরু করুন (Start)
+                    </button>
+                    <button class="icon-btn" onclick="closeTrainModal()" title="উইন্ডো বন্ধ করুন">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <!-- Progress & Stats -->
+                <div class="progress-box">
+                    <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                        <span id="trainStepLabel">শিক্ষক AI সক্রিয় হচ্ছে...</span>
+                        <span id="trainLossLabel" style="font-weight: 600; color: #4285f4;">Loss: --</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="progressBarFill"></div>
+                    </div>
+                </div>
+
+                <!-- Live Dialogue Stream -->
+                <div id="dialogueContainer" style="display: flex; flex-direction: column; gap: 10px;">
+                    <!-- Real-time quiz cards will appear here -->
+                </div>
+
+                <!-- Event Terminal -->
+                <div class="log-terminal" id="logTerminal">
+                    > লাইভ ট্রেইনিং সেশন শুরু হয়েছে...
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

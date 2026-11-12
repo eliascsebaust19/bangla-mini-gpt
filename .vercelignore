@@ -1,0 +1,7 @@
+.venv
+__pycache__
+*.log
+input.txt
+mini_gpt.pt
+mini_gpt_base.pt
+chat_data.txt
