@@ -3,71 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Bangla Mini-GPT | Gemini Style AI</title>
+    <title>Bangla Mini-GPT | Futuristic Emerald AI</title>
     <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><polygon points=%2250,5 90,27 90,73 50,95 10,73 10,27%22 stroke=%22%2300D6A0%22 stroke-width=%228%22 fill=%22%23071C17%22/><circle cx=%2250%22 cy=%2250%22 r=%2214%22 fill=%22%23FF304F%22/></svg>">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
         :root {
-            --bg-primary: #131314;
-            --bg-secondary: #1e1f20;
-            --bg-tertiary: #282a2c;
-            --bg-card: #1e1f20;
-            --bg-input: #282a2c;
-            --border-color: #3c4043;
-            --text-main: #e3e3e3;
-            --text-muted: #9aa0a6;
-            --accent-gemini-gradient: linear-gradient(135deg, #4285f4, #9b72cb, #d96570);
-            --accent-glow: rgba(66, 133, 244, 0.25);
-            --sidebar-width: 270px;
-        }
+            /* Futuristic Emerald Holographic Color System */
+            --bg-primary: #071C17;
+            --bg-secondary: #0A241C;
+            --bg-sidebar: #0B211B;
+            --bg-card: #103329;
+            --bg-card-hover: #143d31;
+            --bg-elevated: #153D30;
+            --bg-input: rgba(16, 51, 41, 0.85);
 
-        html.light {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f0f4f9;
-            --bg-tertiary: #e3e8ee;
-            --bg-card: #f8fafd;
-            --bg-input: #f0f4f9;
-            --border-color: #dfe3e7;
-            --text-main: #1f1f1f;
-            --text-muted: #5f6368;
-            --accent-glow: rgba(66, 133, 244, 0.15);
+            --primary-emerald: #00D6A0;
+            --secondary-green: #00A878;
+            --emerald-dim: rgba(0, 214, 160, 0.12);
+            --emerald-glow: rgba(0, 214, 160, 0.25);
+            --emerald-glow-strong: rgba(0, 214, 160, 0.45);
+
+            --holo-red: #FF304F;
+            --holo-red-glow: rgba(255, 48, 79, 0.35);
+            --holo-red-dim: rgba(255, 48, 79, 0.15);
+
+            --text-primary: #E8FFF5;
+            --text-secondary: #91B5A5;
+            --text-muted: #5e8374;
+
+            --border-color: rgba(0, 214, 160, 0.18);
+            --border-hover: rgba(0, 214, 160, 0.38);
+            --border-active: #00D6A0;
+
+            --sidebar-width: 280px;
+            --font-bengali: 'Hind Siliguri', sans-serif;
+            --font-heading: 'Space Grotesk', 'Hind Siliguri', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Hind Siliguri', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: var(--font-bengali);
         }
 
         body {
             background-color: var(--bg-primary);
-            color: var(--text-main);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(0, 214, 160, 0.1) 0%, transparent 60%),
+                radial-gradient(circle at 90% 90%, rgba(0, 168, 120, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 10% 80%, rgba(255, 48, 79, 0.03) 0%, transparent 40%),
+                linear-gradient(rgba(0, 214, 160, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 214, 160, 0.025) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+            color: var(--text-primary);
             display: flex;
             height: 100vh;
             height: 100dvh;
             overflow: hidden;
-            transition: background-color 0.25s, color 0.25s;
             -webkit-tap-highlight-color: transparent;
+            cursor: default;
         }
 
-        /* Sidebar Styling */
+        /* ==================== RED HOLOGRAPHIC CURSOR ==================== */
+        .holo-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 99999;
+            will-change: transform;
+            mix-blend-mode: screen;
+            transition: opacity 0.2s ease;
+        }
+
+        .holo-cursor-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #FF304F;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px #FF304F, 0 0 18px rgba(255, 48, 79, 0.9);
+            transition: transform 0.15s ease-out;
+        }
+
+        .holo-cursor-ring {
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            border: 1.5px solid rgba(255, 48, 79, 0.6);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 8px rgba(255, 48, 79, 0.35);
+            transition: width 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                        height 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                        border-color 0.2s;
+            animation: holoRingSpin 8s linear infinite;
+        }
+
+        @keyframes holoRingSpin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .holo-cursor.hovering .holo-cursor-ring {
+            width: 46px;
+            height: 46px;
+            border-color: #FF304F;
+            border-style: dashed;
+            box-shadow: 0 0 16px rgba(255, 48, 79, 0.65), inset 0 0 12px rgba(255, 48, 79, 0.25);
+        }
+
+        .holo-cursor.hovering .holo-cursor-dot {
+            transform: translate(-50%, -50%) scale(1.5);
+            background: #ffffff;
+            box-shadow: 0 0 14px #FF304F, 0 0 24px #FF304F;
+        }
+
+        /* Click Shockwave */
+        .holo-click-shockwave {
+            position: fixed;
+            pointer-events: none;
+            z-index: 99998;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 2px solid #FF304F;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px #FF304F, inset 0 0 10px rgba(255, 48, 79, 0.4);
+            animation: holoShockwave 0.55s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+        }
+
+        @keyframes holoShockwave {
+            0% { width: 10px; height: 10px; opacity: 1; }
+            100% { width: 75px; height: 75px; opacity: 0; border-color: rgba(255, 48, 79, 0); }
+        }
+
+        .holo-trail-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 99990;
+        }
+
+        /* ==================== SIDEBAR STYLING ==================== */
         .sidebar {
             width: var(--sidebar-width);
-            background-color: var(--bg-secondary);
+            background-color: var(--bg-sidebar);
             border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 50;
             flex-shrink: 0;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
         }
 
         .sidebar.collapsed {
@@ -81,9 +183,9 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.65);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
+            background: rgba(7, 28, 23, 0.75);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             z-index: 95;
             opacity: 0;
             transition: opacity 0.25s ease;
@@ -94,25 +196,35 @@
             opacity: 1;
         }
 
-        .close-sidebar-btn {
-            display: none;
-        }
-
         .sidebar-header {
-            padding: 12px 14px;
+            padding: 16px 14px 12px;
             display: flex;
             align-items: center;
             gap: 8px;
+            border-bottom: 1px solid rgba(0, 214, 160, 0.08);
         }
 
         .sidebar-toggle-btn {
+            background: transparent;
+            border: 1px solid rgba(0, 214, 160, 0.15);
+            color: var(--text-secondary);
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
             flex-shrink: 0;
-            color: var(--text-muted);
         }
 
         .sidebar-toggle-btn:hover {
-            color: var(--text-main);
-            background: var(--bg-tertiary);
+            color: var(--primary-emerald);
+            background: rgba(0, 214, 160, 0.08);
+            border-color: var(--primary-emerald);
+            box-shadow: 0 0 10px var(--emerald-glow);
         }
 
         .new-chat-btn {
@@ -120,29 +232,54 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 9px;
             padding: 9px 14px;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            color: var(--text-main);
+            background: linear-gradient(135deg, rgba(0, 214, 160, 0.12), rgba(0, 168, 120, 0.06));
+            border: 1px solid rgba(0, 214, 160, 0.35);
+            border-radius: 12px;
+            color: var(--text-primary);
             font-size: 13.5px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.22s ease;
             white-space: nowrap;
         }
 
         .new-chat-btn:hover {
-            background: var(--border-color);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, rgba(0, 214, 160, 0.22), rgba(0, 168, 120, 0.14));
+            border-color: var(--primary-emerald);
+            box-shadow: 0 0 16px rgba(0, 214, 160, 0.3);
             transform: translateY(-1px);
         }
 
+        .new-chat-btn i {
+            color: var(--primary-emerald);
+        }
+
+        .close-sidebar-btn {
+            display: none;
+            color: var(--text-muted);
+            border: none;
+            background: transparent;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .close-sidebar-btn:hover {
+            color: var(--holo-red);
+            background: rgba(255, 48, 79, 0.1);
+        }
+
+        /* Chat History */
         .chat-history {
             flex: 1;
             overflow-y: auto;
-            padding: 10px 14px;
+            padding: 14px 12px;
             display: flex;
             flex-direction: column;
             gap: 6px;
@@ -151,10 +288,20 @@
         .history-label {
             font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             color: var(--text-muted);
-            padding: 8px 10px 4px;
+            padding: 6px 10px 4px;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .history-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(0, 214, 160, 0.1);
         }
 
         .history-item {
@@ -163,34 +310,47 @@
             gap: 10px;
             padding: 9px 12px;
             border-radius: 10px;
-            color: var(--text-main);
-            font-size: 13px;
+            color: var(--text-secondary);
+            font-size: 13.5px;
             cursor: pointer;
             text-decoration: none;
-            transition: background 0.15s;
+            transition: all 0.18s;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+            border: 1px solid transparent;
         }
 
-        .history-item:hover, .history-item.active {
-            background: var(--bg-tertiary);
+        .history-item:hover {
+            background: rgba(0, 214, 160, 0.06);
+            color: var(--text-primary);
+            border-color: rgba(0, 214, 160, 0.15);
+        }
+
+        .history-item.active {
+            background: rgba(0, 214, 160, 0.1);
+            color: var(--primary-emerald);
+            border-color: rgba(0, 214, 160, 0.28);
+            font-weight: 500;
+            box-shadow: 0 0 12px rgba(0, 214, 160, 0.15);
         }
 
         .history-item i {
             font-size: 13px;
-            color: var(--text-muted);
+            color: var(--primary-emerald);
+            opacity: 0.8;
         }
 
+        /* Sidebar Footer & Cyber Sliders */
         .sidebar-footer {
-            padding: 16px;
-            border-top: 1px solid var(--border-color);
+            padding: 16px 14px;
+            border-top: 1px solid rgba(0, 214, 160, 0.1);
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
+            background: rgba(7, 28, 23, 0.4);
         }
 
-        /* Controls inside sidebar */
         .control-group {
             display: flex;
             flex-direction: column;
@@ -201,7 +361,14 @@
             display: flex;
             justify-content: space-between;
             font-size: 12px;
-            color: var(--text-muted);
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .control-label span:last-child {
+            font-family: var(--font-mono);
+            color: var(--primary-emerald);
+            font-weight: 600;
         }
 
         .slider {
@@ -209,45 +376,99 @@
             width: 100%;
             height: 4px;
             border-radius: 2px;
-            background: var(--border-color);
+            background: rgba(0, 214, 160, 0.14);
             outline: none;
         }
 
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 14px;
-            height: 14px;
+            width: 15px;
+            height: 15px;
             border-radius: 50%;
-            background: #4285f4;
+            background: var(--primary-emerald);
             cursor: pointer;
-            transition: transform 0.1s;
+            box-shadow: 0 0 10px var(--primary-emerald);
+            transition: transform 0.15s, box-shadow 0.15s;
         }
 
         .slider::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
+            transform: scale(1.25);
+            box-shadow: 0 0 16px var(--primary-emerald), 0 0 6px var(--holo-red);
+        }
+
+        /* Live AI Training Cybernetic Module Button */
+        .cyber-train-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 10px 14px;
+            background: linear-gradient(135deg, rgba(0, 214, 160, 0.12), rgba(255, 48, 79, 0.08));
+            border: 1px solid rgba(0, 214, 160, 0.3);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 0 14px rgba(0, 214, 160, 0.15);
+        }
+
+        .cyber-train-btn:hover {
+            border-color: var(--primary-emerald);
+            box-shadow: 0 0 20px rgba(0, 214, 160, 0.35), 0 0 10px var(--holo-red-glow);
+            transform: translateY(-1px);
+        }
+
+        .cyber-train-btn i {
+            color: var(--primary-emerald);
+            filter: drop-shadow(0 0 6px var(--primary-emerald));
         }
 
         .model-badge {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            color: var(--text-muted);
-            padding: 6px 10px;
-            border-radius: 8px;
-            background: var(--bg-primary);
+            justify-content: space-between;
+            font-size: 11.5px;
+            color: var(--text-secondary);
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: rgba(16, 51, 41, 0.5);
+            border: 1px solid rgba(0, 214, 160, 0.12);
         }
 
-        .model-badge .dot {
+        .model-badge-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quantum-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: #10a37f;
-            box-shadow: 0 0 6px #10a37f;
+            background: var(--primary-emerald);
+            box-shadow: 0 0 10px var(--primary-emerald), 0 0 16px var(--primary-emerald);
+            animation: quantumPulse 2s infinite ease-in-out;
         }
 
-        /* Main Workspace */
+        @keyframes quantumPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.25); opacity: 0.75; box-shadow: 0 0 14px var(--holo-red); background: var(--holo-red); }
+        }
+
+        .model-tag {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--primary-emerald);
+            background: rgba(0, 214, 160, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 214, 160, 0.2);
+        }
+
+        /* ==================== MAIN WORKSPACE ==================== */
         .main-container {
             flex: 1 1 0;
             min-width: 0;
@@ -262,12 +483,15 @@
 
         /* Top Navigation Bar */
         .top-navbar {
-            height: 56px;
+            height: 58px;
             padding: 0 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid transparent;
+            border-bottom: 1px solid rgba(0, 214, 160, 0.1);
+            background: rgba(7, 28, 23, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
             z-index: 10;
             flex-shrink: 0;
         }
@@ -275,38 +499,66 @@
         .top-left {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
         }
 
         .icon-btn {
             background: transparent;
-            border: none;
-            color: var(--text-muted);
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
+            border: 1px solid rgba(0, 214, 160, 0.15);
+            color: var(--text-secondary);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 15px;
             cursor: pointer;
             transition: all 0.2s;
         }
 
         .icon-btn:hover {
-            background: var(--bg-secondary);
-            color: var(--text-main);
+            background: rgba(0, 214, 160, 0.08);
+            color: var(--primary-emerald);
+            border-color: var(--primary-emerald);
+            box-shadow: 0 0 10px var(--emerald-glow);
         }
 
-        .brand-title {
-            font-size: 18px;
-            font-weight: 600;
-            background: var(--accent-gemini-gradient);
+        /* Custom Holographic Logo */
+        .brand-header-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-svg-icon {
+            width: 28px;
+            height: 28px;
+            filter: drop-shadow(0 0 8px rgba(0, 214, 160, 0.5));
+        }
+
+        .brand-title-text {
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            background: linear-gradient(135deg, #00D6A0 0%, #E8FFF5 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             display: flex;
             align-items: center;
             gap: 8px;
+            font-family: var(--font-heading);
+        }
+
+        .brand-pill {
+            font-size: 10px;
+            font-family: var(--font-mono);
+            background: rgba(0, 214, 160, 0.12);
+            border: 1px solid rgba(0, 214, 160, 0.3);
+            color: var(--primary-emerald);
+            padding: 2px 7px;
+            border-radius: 12px;
+            letter-spacing: 0.5px;
         }
 
         .top-right {
@@ -315,12 +567,12 @@
             gap: 8px;
         }
 
-        /* Chat Messages Container */
+        /* ==================== CHAT MESSAGES AREA ==================== */
         .chat-content {
             flex: 1 1 0;
             min-height: 0;
             overflow-y: auto;
-            padding: 16px 20px 8px;
+            padding: 20px 20px 10px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -330,56 +582,90 @@
 
         .chat-max-width {
             width: 100%;
-            max-width: 800px;
+            max-width: 820px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 22px;
+            margin-top: auto;
         }
 
-        /* Hero / Welcome Screen */
+        /* Futuristic Welcome Screen */
         .welcome-hero {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
+            text-align: center;
             margin: auto 0;
-            padding: 16px 0;
+            padding: 20px 10px 30px;
             width: 100%;
-            animation: fadeIn 0.4s ease-out;
+            animation: fadeInHero 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes fadeInHero {
+            from { opacity: 0; transform: translateY(12px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        .hero-sparkle {
-            font-size: 40px;
-            margin-bottom: 12px;
-            background: var(--accent-gemini-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .hero-emblem-wrap {
+            position: relative;
+            width: 76px;
+            height: 76px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-emblem-svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 20px rgba(0, 214, 160, 0.6));
+            animation: emblemFloat 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes emblemFloat {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-6px) rotate(2deg); }
+        }
+
+        .hero-orbital-ring {
+            position: absolute;
+            width: 96px;
+            height: 96px;
+            border: 1px dashed rgba(0, 214, 160, 0.35);
+            border-radius: 50%;
+            animation: orbitalSpin 12s linear infinite;
+        }
+
+        @keyframes orbitalSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .hero-title {
-            font-size: 44px;
-            font-weight: 600;
-            line-height: 1.2;
-            margin-bottom: 8px;
-            background: var(--accent-gemini-gradient);
+            font-size: 34px;
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #E8FFF5 20%, #00D6A0 80%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
         }
 
         .hero-subtitle {
-            font-size: 34px;
-            font-weight: 500;
-            color: var(--text-muted);
-            margin-bottom: 36px;
+            font-size: 17px;
+            font-weight: 400;
+            color: var(--text-secondary);
+            max-width: 580px;
+            line-height: 1.6;
+            margin-bottom: 34px;
         }
 
+        /* Suggested Cyber Cards */
         .suggestion-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
             gap: 12px;
             width: 100%;
         }
@@ -395,34 +681,81 @@
             flex-direction: column;
             justify-content: space-between;
             min-height: 110px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .suggestion-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-emerald), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         .suggestion-card:hover {
-            background: var(--bg-tertiary);
-            border-color: #5c6269;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px var(--accent-glow);
+            background: var(--bg-card-hover);
+            border-color: var(--primary-emerald);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 214, 160, 0.16), 0 0 1px var(--primary-emerald);
+        }
+
+        .suggestion-card:hover::before {
+            opacity: 1;
         }
 
         .suggestion-card .text {
             font-size: 14px;
             font-weight: 500;
-            color: var(--text-main);
-            line-height: 1.4;
+            color: var(--text-primary);
+            line-height: 1.45;
+        }
+
+        .suggestion-card .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 14px;
+        }
+
+        .suggestion-card .card-tag {
+            font-size: 10px;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
         .suggestion-card .icon {
-            align-self: flex-end;
-            color: var(--text-muted);
-            font-size: 16px;
+            color: var(--primary-emerald);
+            font-size: 14px;
+            transition: all 0.2s;
         }
 
-        /* Message Bubbles */
+        .suggestion-card:hover .icon {
+            color: var(--holo-red);
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 6px var(--holo-red));
+        }
+
+        /* Message Rows */
         .message-row {
             display: flex;
-            gap: 16px;
+            gap: 14px;
             width: 100%;
-            animation: fadeIn 0.3s ease;
+            animation: msgFadeIn 0.3s ease;
+        }
+
+        @keyframes msgFadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .message-row.user {
@@ -432,23 +765,25 @@
         .avatar {
             width: 36px;
             height: 36px;
-            border-radius: 50%;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 15px;
             flex-shrink: 0;
         }
 
         .avatar.gemini {
-            background: var(--accent-gemini-gradient);
-            color: white;
-            box-shadow: 0 0 12px var(--accent-glow);
+            background: linear-gradient(135deg, rgba(0, 214, 160, 0.2), rgba(0, 168, 120, 0.1));
+            border: 1px solid var(--primary-emerald);
+            color: var(--primary-emerald);
+            box-shadow: 0 0 14px var(--emerald-glow);
         }
 
         .avatar.user {
-            background: #2563eb;
-            color: white;
+            background: var(--bg-elevated);
+            color: var(--primary-emerald);
+            border: 1px solid var(--border-color);
         }
 
         .message-body {
@@ -466,77 +801,82 @@
             padding: 12px 18px;
             border-radius: 18px;
             font-size: 15px;
-            line-height: 1.6;
+            line-height: 1.65;
             word-wrap: break-word;
             white-space: pre-wrap;
         }
 
         .message-row.user .message-bubble {
-            background: var(--bg-tertiary);
-            color: var(--text-main);
+            background: var(--bg-elevated);
+            color: var(--text-primary);
             border-bottom-right-radius: 4px;
             border: 1px solid var(--border-color);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
         }
 
         .message-row.gemini .message-bubble {
             background: transparent;
-            color: var(--text-main);
-            padding: 4px 0 12px 0;
+            color: var(--text-primary);
+            padding: 4px 0 8px 0;
             width: 100%;
         }
 
+        /* Message Action Buttons */
         .message-actions {
             display: flex;
             gap: 8px;
-            opacity: 0;
+            opacity: 0.9;
             transition: opacity 0.2s;
         }
 
-        .message-row:hover .message-actions {
-            opacity: 1;
-        }
-
         .action-mini-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
+            background: rgba(0, 214, 160, 0.06);
+            border: 1px solid rgba(0, 214, 160, 0.15);
+            color: var(--text-secondary);
             cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 6px;
+            padding: 4px 9px;
+            border-radius: 8px;
             font-size: 12px;
+            font-weight: 500;
             transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .action-mini-btn:hover {
-            background: var(--bg-tertiary);
-            color: var(--text-main);
+            background: rgba(0, 214, 160, 0.12);
+            color: var(--primary-emerald);
+            border-color: var(--primary-emerald);
+            box-shadow: 0 0 8px var(--emerald-glow);
         }
 
-        /* Cursor Blinking for streaming text */
+        /* Streaming Holographic Blinking Cursor */
         .cursor-blink {
             display: inline-block;
-            width: 7px;
-            height: 17px;
-            background: #4285f4;
+            width: 8px;
+            height: 18px;
+            background: var(--holo-red);
             vertical-align: middle;
             margin-left: 3px;
-            border-radius: 1px;
-            animation: blink 0.8s infinite;
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--holo-red);
+            animation: holoCursorBlink 0.7s infinite;
         }
 
-        @keyframes blink {
+        @keyframes holoCursorBlink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
 
-        /* Input Area at Bottom */
+        /* ==================== BOTTOM INPUT CONTAINER ==================== */
         .bottom-container {
             width: 100%;
-            padding: 4px 20px 20px;
+            padding: 6px 20px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: linear-gradient(180deg, transparent, var(--bg-primary) 35%);
+            background: linear-gradient(180deg, transparent, rgba(7, 28, 23, 0.9) 35%, var(--bg-primary) 100%);
             flex-shrink: 0;
             position: relative;
             z-index: 30;
@@ -548,7 +888,7 @@
             gap: 8px;
             margin-bottom: 10px;
             justify-content: center;
-            max-width: 800px;
+            max-width: 820px;
             width: 100%;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
@@ -563,53 +903,66 @@
         .mode-pill {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            color: var(--text-muted);
+            color: var(--text-secondary);
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 13px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 7px;
             white-space: nowrap;
             flex-shrink: 0;
             user-select: none;
-            -webkit-user-select: none;
         }
 
         .mode-pill:hover {
-            border-color: #4285f4;
-            color: var(--text-main);
+            border-color: var(--primary-emerald);
+            color: var(--text-primary);
             transform: translateY(-1px);
+            box-shadow: 0 2px 10px rgba(0, 214, 160, 0.15);
         }
 
         .mode-pill.active {
-            background: var(--bg-tertiary);
-            border-color: #4285f4;
-            color: #4285f4;
+            background: var(--bg-elevated);
+            border-color: var(--primary-emerald);
+            color: var(--primary-emerald);
             font-weight: 600;
-            box-shadow: 0 0 10px rgba(66, 133, 244, 0.25);
+            box-shadow: 0 0 14px rgba(0, 214, 160, 0.35), inset 0 0 10px rgba(0, 214, 160, 0.08);
         }
 
+        .mode-pill.active::after {
+            content: '';
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--primary-emerald);
+            box-shadow: 0 0 6px var(--primary-emerald);
+        }
+
+        /* Input Box Container */
         .input-box-wrapper {
             width: 100%;
-            max-width: 800px;
+            max-width: 820px;
             background: var(--bg-input);
             border: 1px solid var(--border-color);
-            border-radius: 28px;
-            padding: 8px 16px 8px 22px;
+            border-radius: 26px;
+            padding: 8px 14px 8px 20px;
             display: flex;
             align-items: flex-end;
             gap: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            transition: border-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 6px 24px rgba(7, 28, 23, 0.5);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .input-box-wrapper:focus-within {
-            border-color: #4285f4;
-            box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.25);
+            border-color: var(--primary-emerald);
+            box-shadow: 0 0 25px rgba(0, 214, 160, 0.25), 0 0 1px var(--primary-emerald);
+            background: rgba(21, 61, 48, 0.85);
         }
 
         .chat-input {
@@ -617,8 +970,8 @@
             background: transparent;
             border: none;
             outline: none;
-            color: var(--text-main);
-            font-size: 15px;
+            color: var(--text-primary);
+            font-size: 15.5px;
             line-height: 1.5;
             resize: none;
             max-height: 180px;
@@ -631,8 +984,8 @@
         }
 
         .send-btn {
-            background: var(--text-main);
-            color: var(--bg-primary);
+            background: var(--primary-emerald);
+            color: #071C17;
             width: 38px;
             height: 38px;
             border-radius: 50%;
@@ -640,41 +993,53 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 15px;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
             flex-shrink: 0;
             margin-bottom: 2px;
+            box-shadow: 0 0 12px rgba(0, 214, 160, 0.35);
         }
 
         .send-btn:disabled {
-            background: var(--border-color);
+            background: rgba(0, 214, 160, 0.15);
             color: var(--text-muted);
             cursor: not-allowed;
+            box-shadow: none;
             opacity: 0.6;
         }
 
         .send-btn:not(:disabled):hover {
-            transform: scale(1.05);
-            box-shadow: 0 2px 10px rgba(66, 133, 244, 0.4);
+            transform: scale(1.08);
+            box-shadow: 0 0 20px rgba(0, 214, 160, 0.6);
+        }
+
+        .send-btn.stop-btn {
+            background: var(--holo-red);
+            color: #ffffff;
+            box-shadow: 0 0 14px var(--holo-red-glow);
         }
 
         .footer-disclaimer {
             font-size: 11px;
             color: var(--text-muted);
-            margin-top: 10px;
+            margin-top: 8px;
             text-align: center;
+            font-family: var(--font-bengali);
+            letter-spacing: 0.2px;
         }
 
-        /* Live Training Modal */
+        /* ==================== LIVE AI TRAINING MODAL ==================== */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
+            background: rgba(7, 28, 23, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             z-index: 1000;
             display: none;
             align-items: center;
@@ -688,37 +1053,39 @@
 
         .modal-container {
             background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
+            border: 1px solid rgba(0, 214, 160, 0.35);
             border-radius: 20px;
             width: 100%;
-            max-width: 680px;
-            max-height: 85vh;
+            max-width: 720px;
+            max-height: 88vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 214, 160, 0.15);
             animation: modalSlide 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         @keyframes modalSlide {
-            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            from { opacity: 0; transform: scale(0.95) translateY(12px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         .modal-header {
             padding: 16px 20px;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid rgba(0, 214, 160, 0.15);
             display: flex;
             align-items: center;
             justify-content: space-between;
+            background: rgba(16, 51, 41, 0.5);
         }
 
         .modal-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 10px;
+            color: var(--text-primary);
         }
 
         .modal-body {
@@ -732,14 +1099,14 @@
         .progress-box {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 14px;
+            border-radius: 14px;
+            padding: 14px 16px;
         }
 
         .progress-bar-bg {
             width: 100%;
             height: 8px;
-            background: var(--bg-tertiary);
+            background: rgba(0, 214, 160, 0.1);
             border-radius: 4px;
             overflow: hidden;
             margin-top: 8px;
@@ -748,7 +1115,8 @@
         .progress-bar-fill {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #4285f4, #9b72cb);
+            background: linear-gradient(90deg, #00A878, #00D6A0);
+            box-shadow: 0 0 10px #00D6A0;
             transition: width 0.3s ease;
         }
 
@@ -760,54 +1128,60 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            animation: fadeIn 0.3s ease;
+            animation: msgFadeIn 0.3s ease;
         }
 
         .dialogue-pill {
             align-self: flex-start;
             font-size: 11px;
             font-weight: 600;
-            padding: 3px 8px;
+            padding: 3px 9px;
             border-radius: 10px;
-            background: var(--bg-tertiary);
-            color: var(--text-muted);
+            background: rgba(0, 214, 160, 0.12);
+            color: var(--primary-emerald);
+            border: 1px solid rgba(0, 214, 160, 0.25);
         }
 
         .dialogue-bubble {
-            font-size: 13px;
-            line-height: 1.5;
-            padding: 8px 12px;
+            font-size: 13.5px;
+            line-height: 1.55;
+            padding: 9px 13px;
             border-radius: 10px;
         }
 
         .dialogue-bubble.teacher {
-            background: rgba(66, 133, 244, 0.15);
-            border-left: 3px solid #4285f4;
+            background: rgba(0, 214, 160, 0.08);
+            border-left: 3px solid var(--primary-emerald);
+            color: var(--text-primary);
         }
 
         .dialogue-bubble.student {
-            background: rgba(234, 67, 53, 0.12);
-            border-left: 3px solid #ea4335;
+            background: rgba(255, 48, 79, 0.08);
+            border-left: 3px solid var(--holo-red);
+            color: var(--text-primary);
         }
 
         .dialogue-bubble.gold {
-            background: rgba(52, 168, 83, 0.15);
-            border-left: 3px solid #34a853;
+            background: rgba(0, 214, 160, 0.16);
+            border-left: 3px solid var(--primary-emerald);
+            color: #ffffff;
+            font-weight: 500;
         }
 
         .log-terminal {
-            background: #0d0e0f;
-            border: 1px solid var(--border-color);
+            background: #05130F;
+            border: 1px solid rgba(0, 214, 160, 0.2);
             border-radius: 10px;
-            padding: 10px 12px;
-            font-family: 'Consolas', monospace;
+            padding: 10px 14px;
+            font-family: var(--font-mono);
             font-size: 12px;
-            color: #a8b3cf;
+            color: var(--primary-emerald);
             max-height: 120px;
             overflow-y: auto;
+            line-height: 1.6;
         }
 
-        /* Mobile & Tablet Responsive Enhancements */
+        /* ==================== RESPONSIVE DESIGN ==================== */
         @media (max-width: 768px) {
             :root {
                 --sidebar-width: 280px;
@@ -818,10 +1192,12 @@
                 left: 0;
                 top: 0;
                 bottom: 0;
+                width: 280px;
+                max-width: 85vw;
                 height: 100%;
                 height: 100dvh;
                 z-index: 100;
-                box-shadow: 4px 0 24px rgba(0, 0, 0, 0.6);
+                box-shadow: 4px 0 30px rgba(0, 0, 0, 0.7);
                 transform: translateX(0);
                 margin-left: 0;
                 transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
@@ -838,71 +1214,55 @@
             }
 
             .sidebar-header {
-                gap: 8px;
                 padding: 12px 14px;
             }
 
-            /* Top Navbar */
             .top-navbar {
                 height: 52px;
                 padding: 0 10px;
             }
 
-            .brand-title {
+            .brand-title-text {
                 font-size: 15px;
-                gap: 6px;
             }
 
-            .brand-title span {
-                max-width: 140px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
+            .brand-pill {
+                display: none;
             }
 
             .icon-btn {
-                width: 36px;
-                height: 36px;
-                font-size: 14px;
+                width: 34px;
+                height: 34px;
+                font-size: 13.5px;
             }
 
-            .top-left {
-                gap: 6px;
-            }
-
-            .top-right {
-                gap: 4px;
-            }
-
-            /* Chat Container */
             .chat-content {
-                padding: 12px 10px;
-                scroll-behavior: auto;
+                padding: 12px 8px;
             }
 
-            .chat-max-width {
-                gap: 16px;
-            }
-
-            /* Welcome Hero */
             .welcome-hero {
-                padding: 12px 6px 20px 6px;
-                margin: auto 0;
+                padding: 10px 4px 18px;
             }
 
-            .hero-sparkle {
-                font-size: 26px;
-                margin-bottom: 4px;
+            .hero-emblem-wrap {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 14px;
+            }
+
+            .hero-orbital-ring {
+                width: 78px;
+                height: 78px;
             }
 
             .hero-title {
-                font-size: 26px;
-                margin-bottom: 4px;
+                font-size: 25px;
+                margin-bottom: 6px;
             }
 
             .hero-subtitle {
-                font-size: 16px;
-                margin-bottom: 20px;
+                font-size: 15px;
+                margin-bottom: 22px;
             }
 
             .suggestion-grid {
@@ -919,51 +1279,17 @@
                 gap: 12px;
             }
 
-            .suggestion-card .text {
-                font-size: 13.5px;
-            }
-
-            .suggestion-card .icon {
-                align-self: center;
-                font-size: 14px;
-            }
-
-            /* Messages */
-            .message-row {
-                gap: 8px;
-            }
-
-            .avatar {
-                width: 30px;
-                height: 30px;
-                font-size: 13px;
+            .suggestion-card .card-footer {
+                margin-top: 0;
             }
 
             .message-body {
                 max-width: 88%;
             }
 
-            .message-bubble {
-                padding: 10px 14px;
-                font-size: 14px;
-                line-height: 1.55;
-                border-radius: 16px;
-            }
-
-            .message-actions {
-                opacity: 0.95;
-                margin-top: 2px;
-            }
-
-            .action-mini-btn {
-                padding: 4px 8px;
-                font-size: 11px;
-            }
-
-            /* Bottom Input Container */
             .bottom-container {
                 padding: 4px 10px max(10px, env(safe-area-inset-bottom));
-                background: linear-gradient(180deg, transparent, var(--bg-primary) 25%);
+                background: linear-gradient(180deg, transparent, rgba(7, 28, 23, 0.95) 25%, var(--bg-primary) 100%);
                 flex-shrink: 0;
             }
 
@@ -976,96 +1302,34 @@
             .mode-pill {
                 font-size: 12px;
                 padding: 5px 12px;
-                border-radius: 16px;
             }
 
             .input-box-wrapper {
                 padding: 6px 8px 6px 14px;
-                border-radius: 24px;
+                border-radius: 22px;
                 gap: 8px;
             }
 
             .chat-input {
-                font-size: 16px; /* Prevents auto-zoom on iOS */
+                font-size: 16px; /* Prevents auto-zoom on iOS Safari */
                 max-height: 120px;
-                padding: 5px 0;
             }
 
             .send-btn {
                 width: 36px;
                 height: 36px;
             }
-
-            .footer-disclaimer {
-                font-size: 10px;
-                margin-top: 6px;
-                line-height: 1.3;
-                padding: 0 4px;
-            }
-
-            /* Live Training Modal */
-            .modal-overlay {
-                padding: 10px;
-            }
-
-            .modal-container {
-                max-height: 92vh;
-                max-height: 92dvh;
-                border-radius: 16px;
-            }
-
-            .modal-header {
-                padding: 12px 14px;
-                flex-wrap: wrap;
-                gap: 8px;
-            }
-
-            .modal-title {
-                font-size: 13.5px;
-                gap: 6px;
-            }
-
-            .modal-body {
-                padding: 14px 12px;
-                gap: 12px;
-            }
-
-            .dialogue-card {
-                padding: 10px;
-                border-radius: 12px;
-                gap: 6px;
-            }
-
-            .dialogue-bubble {
-                font-size: 12px;
-                padding: 6px 10px;
-            }
-
-            .log-terminal {
-                max-height: 90px;
-                font-size: 11px;
-                padding: 8px 10px;
-            }
-        }
-
-        @media (max-width: 380px) {
-            .brand-title span {
-                max-width: 110px;
-            }
-            .mode-pill {
-                font-size: 11.5px;
-                padding: 4px 10px;
-            }
-            .hero-title {
-                font-size: 22px;
-            }
-            .hero-subtitle {
-                font-size: 15px;
-            }
         }
     </style>
 </head>
 <body>
+
+    <!-- Red Holographic Cursor Elements -->
+    <div id="holoCursor" class="holo-cursor">
+        <div class="holo-cursor-dot"></div>
+        <div class="holo-cursor-ring"></div>
+    </div>
+    <canvas id="holoTrailCanvas" class="holo-trail-canvas"></canvas>
 
     <!-- Overlay for mobile sidebar -->
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
@@ -1073,23 +1337,25 @@
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <button class="icon-btn sidebar-toggle-btn" onclick="toggleSidebar()" title="সাইডবার লুকান">
+            <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="সাইডবার টগল করুন">
                 <i class="fa-solid fa-bars"></i>
             </button>
             <button class="new-chat-btn" onclick="startNewChat()">
                 <i class="fa-solid fa-plus"></i>
                 <span>নতুন চ্যাট (New Chat)</span>
             </button>
-            <button class="icon-btn close-sidebar-btn" onclick="toggleSidebar()" title="সাইডবার বন্ধ করুন">
+            <button class="close-sidebar-btn" onclick="toggleSidebar()" title="সাইডবার বন্ধ করুন">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
 
         <div class="chat-history" id="chatHistory">
-            <div class="history-label">সাম্প্রতিক চ্যাট</div>
+            <div class="history-label">
+                <i class="fa-solid fa-clock-rotate-left"></i> সাম্প্রতিক সেশন
+            </div>
             <div class="history-item active" onclick="startNewChat()">
                 <i class="fa-regular fa-message"></i>
-                বর্তমান সেশন
+                বর্তমান সক্রিয় সেশন
             </div>
         </div>
 
@@ -1097,9 +1363,9 @@
             <div class="control-group">
                 <div class="control-label">
                     <span>তাপমাত্রা (Temperature)</span>
-                    <span id="tempValue">0.4</span>
+                    <span id="tempValue">0.40</span>
                 </div>
-                <input type="range" min="0.1" max="1.5" step="0.1" value="0.4" class="slider" id="tempSlider" oninput="updateTemp(this.value)">
+                <input type="range" min="0.1" max="1.5" step="0.05" value="0.4" class="slider" id="tempSlider" oninput="updateTemp(this.value)">
             </div>
 
             <div class="control-group">
@@ -1110,14 +1376,17 @@
                 <input type="range" min="50" max="600" step="50" value="300" class="slider" id="tokensSlider" oninput="updateTokens(this.value)">
             </div>
 
-            <button class="new-chat-btn" onclick="openLiveTrainModal()" id="autoTrainBtn" style="border-radius: 12px; justify-content: center; background: linear-gradient(135deg, rgba(66, 133, 244, 0.2), rgba(155, 114, 203, 0.2)); border-color: rgba(66, 133, 244, 0.5); margin-bottom: 4px; box-shadow: 0 0 12px rgba(66, 133, 244, 0.2);">
-                <i class="fa-solid fa-graduation-cap" style="color: #4285f4;"></i>
-                <span id="autoTrainText" style="font-weight: 600;">🎓 লাইভ AI ট্রেইনিং দেখুন</span>
+            <button class="cyber-train-btn" onclick="openLiveTrainModal()" id="autoTrainBtn">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span id="autoTrainText">🎓 লাইভ AI ট্রেইনিং দেখুন</span>
             </button>
 
             <div class="model-badge">
-                <div class="dot"></div>
-                <span>Bangla Mini-GPT (1.96M)</span>
+                <div class="model-badge-left">
+                    <div class="quantum-dot"></div>
+                    <span>Bangla Mini-GPT</span>
+                </div>
+                <span class="model-tag">1.96M CORE</span>
             </div>
         </div>
     </aside>
@@ -1135,19 +1404,23 @@
                 <button class="icon-btn" onclick="toggleSidebar()" title="সাইডবার টগল করুন">
                     <i class="fa-solid fa-bars"></i>
                 </button>
-                <div class="brand-title">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    <span>Bangla Mini-GPT</span>
+                <div class="brand-header-wrap">
+                    <svg class="brand-svg-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="20,2 36,11 36,29 20,38 4,29 4,11" stroke="#00D6A0" stroke-width="2" fill="rgba(0, 214, 160, 0.08)" />
+                        <path d="M14 26L20 13L26 26H14Z" stroke="#00D6A0" stroke-width="1.8" stroke-linejoin="round" fill="none"/>
+                        <circle cx="20" cy="20" r="3" fill="#FF304F"/>
+                    </svg>
+                    <div class="brand-title-text">
+                        <span>Bangla Mini-GPT</span>
+                        <span class="brand-pill">EMERALD HUD</span>
+                    </div>
                 </div>
             </div>
             <div class="top-right">
-                <button class="icon-btn" onclick="exportChat()" title="চ্যাট ডাউনলোড করুন">
+                <button class="icon-btn" onclick="exportChat()" title="কথোপকথন ডাউনলোড করুন">
                     <i class="fa-solid fa-arrow-down-to-bracket"></i>
                 </button>
-                <button class="icon-btn" onclick="toggleTheme()" title="ডার্ক/লাইট থিম">
-                    <i class="fa-regular fa-moon" id="themeIcon"></i>
-                </button>
-                <button class="icon-btn" onclick="clearMessages()" title="কথোপকথন মুছুন">
+                <button class="icon-btn" onclick="clearMessages()" title="চ্যাট পরিষ্কার করুন">
                     <i class="fa-regular fa-trash-can"></i>
                 </button>
             </div>
@@ -1157,28 +1430,49 @@
         <div class="chat-content" id="chatContainer">
             <div class="chat-max-width" id="messagesList">
                 
-                <!-- Welcome Hero Screen (visible when chat is empty) -->
+                <!-- Welcome Hero Screen -->
                 <div class="welcome-hero" id="welcomeHero">
-                    <div class="hero-sparkle"><i class="fa-solid fa-sparkles"></i> ✨</div>
-                    <h1 class="hero-title">স্বাগতম!</h1>
-                    <h2 class="hero-subtitle">আমি আপনাকে কীভাবে সাহায্য করতে পারি?</h2>
+                    <div class="hero-emblem-wrap">
+                        <div class="hero-orbital-ring"></div>
+                        <svg class="hero-emblem-svg" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="40,4 72,22 72,58 40,76 8,58 8,22" stroke="#00D6A0" stroke-width="2.5" fill="rgba(0, 214, 160, 0.06)" />
+                            <circle cx="40" cy="40" r="22" stroke="rgba(0, 214, 160, 0.3)" stroke-width="1.5" stroke-dasharray="3 4"/>
+                            <path d="M28 52L40 26L52 52H28Z" stroke="#00D6A0" stroke-width="2.2" stroke-linejoin="round" fill="none"/>
+                            <circle cx="40" cy="40" r="5" fill="#FF304F"/>
+                        </svg>
+                    </div>
+
+                    <h1 class="hero-title">স্বাগতম, আমি বাংলা Mini-GPT</h1>
+                    <p class="hero-subtitle">উন্নত নিউরাল ট্রান্সফরমার মডেল — বাংলা ও Banglish উভয় ভাষায় যেকোনো কথপোকথন ও সহায়তার জন্য প্রস্তুত।</p>
 
                     <div class="suggestion-grid">
                         <div class="suggestion-card" onclick="sendSuggestion('কেমন আছেন?')">
-                            <div class="text">কেমন আছেন?</div>
-                            <div class="icon"><i class="fa-regular fa-comments"></i></div>
+                            <div class="text">কেমন আছেন এবং আপনার দিন কেমন চলছে?</div>
+                            <div class="card-footer">
+                                <span class="card-tag">GREETING</span>
+                                <div class="icon"><i class="fa-regular fa-comments"></i></div>
+                            </div>
                         </div>
-                        <div class="suggestion-card" onclick="sendSuggestion('তুমি কে?')">
-                            <div class="text">তুমি কে এবং কি করতে পারো?</div>
-                            <div class="icon"><i class="fa-solid fa-robot"></i></div>
+                        <div class="suggestion-card" onclick="sendSuggestion('তুমি কে এবং কি করতে পারো?')">
+                            <div class="text">তুমি কে এবং তোমার ক্ষমতা কি কি?</div>
+                            <div class="card-footer">
+                                <span class="card-tag">SYSTEM INFO</span>
+                                <div class="icon"><i class="fa-solid fa-microchip"></i></div>
+                            </div>
                         </div>
                         <div class="suggestion-card" onclick="sendSuggestion('বাংলাদেশের রাজধানী কি?')">
-                            <div class="text">বাংলাদেশের রাজধানী কি?</div>
-                            <div class="icon"><i class="fa-solid fa-earth-asia"></i></div>
+                            <div class="text">বাংলাদেশের রাজধানী ও প্রধান শহর সম্পর্কে বলো।</div>
+                            <div class="card-footer">
+                                <span class="card-tag">KNOWLEDGE</span>
+                                <div class="icon"><i class="fa-solid fa-landmark"></i></div>
+                            </div>
                         </div>
                         <div class="suggestion-card" onclick="sendSuggestion('কৃত্রিম বুদ্ধিমত্তা কি?')">
-                            <div class="text">কৃত্রিম বুদ্ধিমত্তা কি?</div>
-                            <div class="icon"><i class="fa-solid fa-microchip"></i></div>
+                            <div class="text">কৃত্রিম বুদ্ধিমত্তা (AI) কীভাবে কাজ করে?</div>
+                            <div class="card-footer">
+                                <span class="card-tag">NEURAL AI</span>
+                                <div class="icon"><i class="fa-solid fa-atom"></i></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1186,7 +1480,7 @@
             </div>
         </div>
 
-        <!-- Floating Bottom Input Box -->
+        <!-- Floating Bottom Input Container -->
         <div class="bottom-container">
             <!-- Persona Selector Strip -->
             <div class="persona-strip">
@@ -1197,7 +1491,7 @@
                     👫 বন্ধু মোড (Friend)
                 </button>
                 <button class="mode-pill" onclick="setMode('gf')" id="pill-gf">
-                    ❤️ প্রেমিকা (GF Mode)
+                    ❤️ প্রেমিকা মোড (GF Mode)
                 </button>
                 <button class="mode-pill" onclick="setMode('wife')" id="pill-wife">
                     💍 বউ মোড (Wife)
@@ -1218,16 +1512,211 @@
                 </button>
             </div>
             <div class="footer-disclaimer">
-                Mini-GPT ভুল করতে পারে। ক্যারেক্টার-লেভেল মডেল দ্বারা উৎপন্ন তথ্য যাচাই করে নিন।
+                Bangla Mini-GPT ক্যারেক্টার-লেভেল মডেল দ্বারা চালিত। গুরুত্বপূর্ণ তথ্য সর্বদা যাচাই করে নিন।
             </div>
         </div>
     </main>
 
+    <!-- Live AI Training Modal -->
+    <div class="modal-overlay" id="trainModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fa-solid fa-graduation-cap" style="color: #00D6A0; font-size: 18px;"></i>
+                    <span>লাইভ শিক্ষক-ছাত্র AI অটো-ট্রেইনিং</span>
+                    <span id="cycleBadge" style="padding: 3px 10px; background: rgba(0, 214, 160, 0.15); border: 1px solid rgba(0, 214, 160, 0.3); border-radius: 12px; font-size: 11px; color: #00D6A0; font-weight: 600; font-family: var(--font-mono);">সাইকেল #১</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <button id="stopTrainBtn" onclick="stopLiveAutoTrain()" style="background: #FF304F; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 12px;" title="ট্রেইনিং বন্ধ করুন">
+                        <i class="fa-solid fa-stop"></i> থামান (Stop)
+                    </button>
+                    <button id="resumeTrainBtn" onclick="startLiveAutoTrain()" style="background: #00A878; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 600; cursor: pointer; display: none; align-items: center; gap: 6px; font-size: 12px;" title="ট্রেইনিং পুনরায় চালু করুন">
+                        <i class="fa-solid fa-play"></i> শুরু করুন (Start)
+                    </button>
+                    <button class="icon-btn" onclick="closeTrainModal()" title="উইন্ডো বন্ধ করুন">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <!-- Progress & Stats -->
+                <div class="progress-box">
+                    <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                        <span id="trainStepLabel">শিক্ষক AI সক্রিয় হচ্ছে...</span>
+                        <span id="trainLossLabel" style="font-weight: 600; color: #00D6A0; font-family: var(--font-mono);">Loss: --</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="progressBarFill"></div>
+                    </div>
+                </div>
+
+                <!-- Live Dialogue Stream -->
+                <div id="dialogueContainer" style="display: flex; flex-direction: column; gap: 10px;">
+                    <!-- Real-time quiz cards stream here -->
+                </div>
+
+                <!-- Event Terminal -->
+                <div class="log-terminal" id="logTerminal">
+                    > লাইভ ট্রেইনিং সেশন শুরু হয়েছে...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Application Logic -->
     <script>
         let isGenerating = false;
         let controller = null;
         let currentMode = 'ai';
+        let lastUserPrompt = '';
 
+        // ==================== RED HOLOGRAPHIC CURSOR SYSTEM ====================
+        class HoloCursor {
+            constructor() {
+                this.cursor = document.getElementById('holoCursor');
+                this.dot = this.cursor ? this.cursor.querySelector('.holo-cursor-dot') : null;
+                this.ring = this.cursor ? this.cursor.querySelector('.holo-cursor-ring') : null;
+                this.canvas = document.getElementById('holoTrailCanvas');
+                this.ctx = this.canvas ? this.canvas.getContext('2d') : null;
+
+                this.pos = { x: -100, y: -100 };
+                this.target = { x: -100, y: -100 };
+                this.particles = [];
+                this.isHovering = false;
+                this.isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || window.innerWidth <= 768;
+
+                if (this.isTouch) {
+                    if (this.cursor) this.cursor.style.display = 'none';
+                    if (this.canvas) this.canvas.style.display = 'none';
+                    return;
+                }
+
+                this.initCanvas();
+                this.bindEvents();
+                this.render();
+            }
+
+            initCanvas() {
+                if (!this.canvas) return;
+                this.resizeCanvas();
+                window.addEventListener('resize', () => this.resizeCanvas());
+            }
+
+            resizeCanvas() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+
+            bindEvents() {
+                window.addEventListener('mousemove', (e) => {
+                    this.target.x = e.clientX;
+                    this.target.y = e.clientY;
+
+                    if (Math.random() < 0.5) {
+                        this.addParticle(e.clientX, e.clientY);
+                    }
+                });
+
+                window.addEventListener('mousedown', (e) => {
+                    this.createClickPulse(e.clientX, e.clientY);
+                });
+
+                document.addEventListener('mouseover', (e) => {
+                    const target = e.target.closest('button, a, input, textarea, .suggestion-card, .mode-pill, .history-item, .icon-btn');
+                    if (target && this.cursor) {
+                        this.cursor.classList.add('hovering');
+                        this.isHovering = true;
+                    }
+                });
+
+                document.addEventListener('mouseout', (e) => {
+                    const target = e.target.closest('button, a, input, textarea, .suggestion-card, .mode-pill, .history-item, .icon-btn');
+                    if (target && this.cursor) {
+                        this.cursor.classList.remove('hovering');
+                        this.isHovering = false;
+                    }
+                });
+            }
+
+            addParticle(x, y) {
+                this.particles.push({
+                    x: x + (Math.random() - 0.5) * 6,
+                    y: y + (Math.random() - 0.5) * 6,
+                    vx: (Math.random() - 0.5) * 0.8,
+                    vy: (Math.random() - 0.5) * 0.8,
+                    alpha: 0.8,
+                    size: Math.random() * 2 + 1.2,
+                    decay: Math.random() * 0.03 + 0.02
+                });
+                if (this.particles.length > 35) {
+                    this.particles.shift();
+                }
+            }
+
+            createClickPulse(x, y) {
+                const pulse = document.createElement('div');
+                pulse.className = 'holo-click-shockwave';
+                pulse.style.left = `${x}px`;
+                pulse.style.top = `${y}px`;
+                document.body.appendChild(pulse);
+                setTimeout(() => pulse.remove(), 550);
+
+                for (let i = 0; i < 7; i++) {
+                    const angle = (Math.PI * 2 / 7) * i;
+                    const speed = Math.random() * 1.8 + 1.2;
+                    this.particles.push({
+                        x: x,
+                        y: y,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        alpha: 1.0,
+                        size: Math.random() * 2.5 + 1.5,
+                        decay: 0.035
+                    });
+                }
+            }
+
+            render() {
+                this.pos.x += (this.target.x - this.pos.x) * 0.35;
+                this.pos.y += (this.target.y - this.pos.y) * 0.35;
+
+                if (this.cursor) {
+                    this.cursor.style.transform = `translate3d(${this.pos.x}px, ${this.pos.y}px, 0)`;
+                }
+
+                if (this.ctx) {
+                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+                    for (let i = this.particles.length - 1; i >= 0; i--) {
+                        const p = this.particles[i];
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.alpha -= p.decay;
+
+                        if (p.alpha <= 0) {
+                            this.particles.splice(i, 1);
+                            continue;
+                        }
+
+                        this.ctx.save();
+                        this.ctx.beginPath();
+                        this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        this.ctx.fillStyle = `rgba(255, 48, 79, ${p.alpha})`;
+                        this.ctx.shadowColor = '#FF304F';
+                        this.ctx.shadowBlur = 6;
+                        this.ctx.fill();
+                        this.ctx.restore();
+                    }
+                }
+
+                requestAnimationFrame(() => this.render());
+            }
+        }
+
+        // Initialize Holographic Cursor
+        const holoCursor = new HoloCursor();
+
+        // ==================== APP CONTROLS & NAVIGATION ====================
         function setMode(mode) {
             currentMode = mode;
             document.querySelectorAll('.mode-pill').forEach(p => p.classList.remove('active'));
@@ -1246,7 +1735,6 @@
             }
         }
 
-        // Auto resize textarea
         function autoResize(textarea) {
             textarea.style.height = 'auto';
             textarea.style.height = Math.min(textarea.scrollHeight, 180) + 'px';
@@ -1254,7 +1742,6 @@
             sendBtn.disabled = !textarea.value.trim() && !isGenerating;
         }
 
-        // Check Mobile View & Auto-Collapse Sidebar
         function checkMobileView() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
@@ -1264,7 +1751,6 @@
             }
         }
 
-        // Close sidebar on mobile action
         function closeMobileSidebar() {
             if (window.innerWidth <= 768) {
                 const sidebar = document.getElementById('sidebar');
@@ -1274,7 +1760,6 @@
             }
         }
 
-        // Toggle Sidebar
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
@@ -1289,7 +1774,6 @@
             }
         }
 
-        // Window resize listener
         window.addEventListener('resize', () => {
             if (window.innerWidth > 768) {
                 const overlay = document.getElementById('sidebarOverlay');
@@ -1297,40 +1781,21 @@
             }
         });
 
-        // Initialize on load
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', checkMobileView);
-        } else {
-            checkMobileView();
-        }
-
-        // Toggle Theme
-        function toggleTheme() {
-            const html = document.documentElement;
-            const themeIcon = document.getElementById('themeIcon');
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                html.classList.add('light');
-                themeIcon.classList.remove('fa-moon');
-                themeIcon.classList.add('fa-sun');
-            } else {
-                html.classList.remove('light');
-                html.classList.add('dark');
-                themeIcon.classList.remove('fa-sun');
-                themeIcon.classList.add('fa-moon');
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeMobileSidebar();
+                closeTrainModal();
             }
-        }
+        });
 
-        // Update Sliders
         function updateTemp(val) {
-            document.getElementById('tempValue').innerText = val;
+            document.getElementById('tempValue').innerText = parseFloat(val).toFixed(2);
         }
 
         function updateTokens(val) {
             document.getElementById('tokensValue').innerText = val;
         }
 
-        // Handle Enter key (Shift+Enter for newline)
         function handleKeyDown(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -1338,14 +1803,12 @@
             }
         }
 
-        // Send suggestion card
         function sendSuggestion(text) {
             document.getElementById('chatInput').value = text;
             autoResize(document.getElementById('chatInput'));
             sendMessage();
         }
 
-        // Start New Chat
         function startNewChat() {
             if (isGenerating && controller) {
                 controller.abort();
@@ -1354,30 +1817,49 @@
             closeMobileSidebar();
         }
 
-        // Clear Messages
         function clearMessages() {
             const list = document.getElementById('messagesList');
             list.innerHTML = `
                 <div class="welcome-hero" id="welcomeHero">
-                    <div class="hero-sparkle">✨</div>
-                    <h1 class="hero-title">স্বাগতম!</h1>
-                    <h2 class="hero-subtitle">আমি আপনাকে কীভাবে সাহায্য করতে পারি?</h2>
+                    <div class="hero-emblem-wrap">
+                        <div class="hero-orbital-ring"></div>
+                        <svg class="hero-emblem-svg" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="40,4 72,22 72,58 40,76 8,58 8,22" stroke="#00D6A0" stroke-width="2.5" fill="rgba(0, 214, 160, 0.06)" />
+                            <circle cx="40" cy="40" r="22" stroke="rgba(0, 214, 160, 0.3)" stroke-width="1.5" stroke-dasharray="3 4"/>
+                            <path d="M28 52L40 26L52 52H28Z" stroke="#00D6A0" stroke-width="2.2" stroke-linejoin="round" fill="none"/>
+                            <circle cx="40" cy="40" r="5" fill="#FF304F"/>
+                        </svg>
+                    </div>
+                    <h1 class="hero-title">স্বাগতম, আমি বাংলা Mini-GPT</h1>
+                    <p class="hero-subtitle">উন্নত নিউরাল ট্রান্সফরমার মডেল — বাংলা ও Banglish উভয় ভাষায় যেকোনো কথপোকথন ও সহায়তার জন্য প্রস্তুত।</p>
                     <div class="suggestion-grid">
                         <div class="suggestion-card" onclick="sendSuggestion('কেমন আছেন?')">
-                            <div class="text">কেমন আছেন?</div>
-                            <div class="icon"><i class="fa-regular fa-comments"></i></div>
+                            <div class="text">কেমন আছেন এবং আপনার দিন কেমন চলছে?</div>
+                            <div class="card-footer">
+                                <span class="card-tag">GREETING</span>
+                                <div class="icon"><i class="fa-regular fa-comments"></i></div>
+                            </div>
                         </div>
-                        <div class="suggestion-card" onclick="sendSuggestion('তুমি কে?')">
-                            <div class="text">তুমি কে এবং কি করতে পারো?</div>
-                            <div class="icon"><i class="fa-solid fa-robot"></i></div>
+                        <div class="suggestion-card" onclick="sendSuggestion('তুমি কে এবং কি করতে পারো?')">
+                            <div class="text">তুমি কে এবং তোমার ক্ষমতা কি কি?</div>
+                            <div class="card-footer">
+                                <span class="card-tag">SYSTEM INFO</span>
+                                <div class="icon"><i class="fa-solid fa-microchip"></i></div>
+                            </div>
                         </div>
                         <div class="suggestion-card" onclick="sendSuggestion('বাংলাদেশের রাজধানী কি?')">
-                            <div class="text">বাংলাদেশের রাজধানী কি?</div>
-                            <div class="icon"><i class="fa-solid fa-earth-asia"></i></div>
+                            <div class="text">বাংলাদেশের রাজধানী ও প্রধান শহর সম্পর্কে বলো।</div>
+                            <div class="card-footer">
+                                <span class="card-tag">KNOWLEDGE</span>
+                                <div class="icon"><i class="fa-solid fa-landmark"></i></div>
+                            </div>
                         </div>
                         <div class="suggestion-card" onclick="sendSuggestion('কৃত্রিম বুদ্ধিমত্তা কি?')">
-                            <div class="text">কৃত্রিম বুদ্ধিমত্তা কি?</div>
-                            <div class="icon"><i class="fa-solid fa-microchip"></i></div>
+                            <div class="text">কৃত্রিম বুদ্ধিমত্তা (AI) কীভাবে কাজ করে?</div>
+                            <div class="card-footer">
+                                <span class="card-tag">NEURAL AI</span>
+                                <div class="icon"><i class="fa-solid fa-atom"></i></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1386,29 +1868,28 @@
             autoResize(document.getElementById('chatInput'));
         }
 
-        // Send Message & Stream Response
+        // ==================== STREAMING CHAT & GENERATION ====================
         async function sendMessage() {
             const input = document.getElementById('chatInput');
             const prompt = input.value.trim();
             if (!prompt || isGenerating) return;
 
-            // Hide hero if visible
+            lastUserPrompt = prompt;
+
             const hero = document.getElementById('welcomeHero');
             if (hero) hero.remove();
 
-            // Append User Message
             appendUserMessage(prompt);
             input.value = '';
             autoResize(input);
 
-            // Set UI state to generating
             isGenerating = true;
             const sendBtn = document.getElementById('sendBtn');
             sendBtn.innerHTML = '<i class="fa-solid fa-stop"></i>';
+            sendBtn.classList.add('stop-btn');
             sendBtn.onclick = stopGeneration;
 
-            // Create Assistant Message container
-            const bubble = appendGeminiMessageContainer();
+            const bubble = appendAIMessageContainer();
             const cursor = document.createElement('span');
             cursor.className = 'cursor-blink';
             bubble.appendChild(cursor);
@@ -1448,9 +1929,7 @@
                     for (const line of lines) {
                         if (line.startsWith('data: ')) {
                             const raw = line.slice(6).trim();
-                            if (raw === '[DONE]') {
-                                break;
-                            }
+                            if (raw === '[DONE]') break;
                             try {
                                 const parsed = JSON.parse(raw);
                                 if (parsed.chunk !== undefined) {
@@ -1460,7 +1939,6 @@
                                     scrollToBottom();
                                 }
                             } catch (e) {
-                                // Fallback for raw text
                                 accumulatedText += raw;
                                 bubble.innerText = accumulatedText;
                                 bubble.appendChild(cursor);
@@ -1477,12 +1955,12 @@
                 cursor.remove();
                 isGenerating = false;
                 sendBtn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+                sendBtn.classList.remove('stop-btn');
                 sendBtn.onclick = sendMessage;
                 autoResize(input);
             }
         }
 
-        // Stop generation
         function stopGeneration() {
             if (controller) {
                 controller.abort();
@@ -1502,7 +1980,7 @@
             scrollToBottom();
         }
 
-        function appendGeminiMessageContainer() {
+        function appendAIMessageContainer() {
             const list = document.getElementById('messagesList');
             const row = document.createElement('div');
             row.className = 'message-row gemini';
@@ -1519,6 +1997,9 @@
                         <button class="action-mini-btn" onclick="speakText(this)" title="উচ্চারণ শুনুন">
                             <i class="fa-solid fa-volume-high"></i> শুনুন
                         </button>
+                        <button class="action-mini-btn" onclick="regenerateLast()" title="পুনরায় উত্তর তৈরি করুন">
+                            <i class="fa-solid fa-arrows-rotate"></i> পুনরায়
+                        </button>
                     </div>
                 </div>
             `;
@@ -1533,7 +2014,7 @@
             const text = btn.closest('.message-body').querySelector('.message-bubble').innerText;
             navigator.clipboard.writeText(text).then(() => {
                 const original = btn.innerHTML;
-                btn.innerHTML = '<i class="fa-solid fa-check"></i> কপি হয়েছে!';
+                btn.innerHTML = '<i class="fa-solid fa-check" style="color: #00D6A0;"></i> কপি হয়েছে!';
                 setTimeout(() => { btn.innerHTML = original; }, 2000);
             });
         }
@@ -1552,10 +2033,17 @@
             const utter = new SpeechSynthesisUtterance(text);
             utter.lang = 'bn-BD';
             utter.rate = 0.95;
-            btn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i> থামান';
+            btn.innerHTML = '<i class="fa-solid fa-volume-xmark" style="color: #FF304F;"></i> থামান';
             utter.onend = () => { btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> শুনুন'; };
             utter.onerror = () => { btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> শুনুন'; };
             window.speechSynthesis.speak(utter);
+        }
+
+        function regenerateLast() {
+            if (lastUserPrompt && !isGenerating) {
+                document.getElementById('chatInput').value = lastUserPrompt;
+                sendMessage();
+            }
         }
 
         function exportChat() {
@@ -1579,9 +2067,11 @@
             a.click();
         }
 
+        // ==================== LIVE AI TRAINING MODAL ====================
         let trainEventSource = null;
 
         function openLiveTrainModal() {
+            closeMobileSidebar();
             document.getElementById('trainModal').classList.add('active');
             startLiveAutoTrain();
         }
@@ -1646,7 +2136,7 @@
                         card.innerHTML = `
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                 <span class="dialogue-pill">${escapeHtml(data.mode)}</span>
-                                <span style="font-size: 11px; color: var(--text-muted);">সাইকেল #${data.cycle}</span>
+                                <span style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono);">CYCLE #${data.cycle}</span>
                             </div>
                             <div class="dialogue-bubble teacher">
                                 <strong>👨‍🏫 শিক্ষক AI এর প্রশ্ন:</strong> ${escapeHtml(data.question)}
@@ -1658,7 +2148,6 @@
                                 <strong>💡 শিক্ষকের সঠিক শিক্ষা:</strong> ${escapeHtml(data.gold)}
                             </div>
                         `;
-                        // Keep at most 6 cards in container so it doesn't get overloaded
                         if (dialogueContainer.children.length > 6) {
                             dialogueContainer.removeChild(dialogueContainer.firstElementChild);
                         }
@@ -1668,7 +2157,7 @@
                     } else if (data.type === 'step') {
                         const pct = Math.round((data.step / data.total) * 100);
                         barFill.style.width = pct + '%';
-                        stepLabel.innerText = `মডেল শিখছে: Step ${data.step}/${data.total} (সাইকেল #${data.cycle})`;
+                        stepLabel.innerText = `মডেল অপ্টিমাইজেশন: Step ${data.step}/${data.total} (সাইকেল #${data.cycle})`;
                         lossLabel.innerText = `Loss: ${data.loss}`;
                         logTerminal.innerText += `> [Cycle #${data.cycle}] Step ${data.step}/${data.total} | Loss: ${data.loss}\n`;
                         logTerminal.scrollTop = logTerminal.scrollHeight;
@@ -1693,7 +2182,7 @@
             };
 
             trainEventSource.onerror = function() {
-                logTerminal.innerText += '> সেশন শেষ হয়েছে।\n';
+                logTerminal.innerText += '> সেশন সমাপ্ত।\n';
                 if (trainEventSource) {
                     trainEventSource.close();
                     trainEventSource = null;
@@ -1712,51 +2201,5 @@
             return div.innerHTML;
         }
     </script>
-
-    <!-- Live AI Training Modal -->
-    <div class="modal-overlay" id="trainModal">
-        <div class="modal-container">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <i class="fa-solid fa-graduation-cap" style="color: #4285f4; font-size: 20px;"></i>
-                    <span>লাইভ শিক্ষক-ছাত্র AI অটো-ট্রেইনিং (Continuous)</span>
-                    <span id="cycleBadge" style="padding: 3px 10px; background: rgba(66, 133, 244, 0.2); border-radius: 12px; font-size: 12px; color: #4285f4; font-weight: 600;">সাইকেল #১</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <button id="stopTrainBtn" onclick="stopLiveAutoTrain()" style="background: #ea4335; color: white; border: none; padding: 6px 12px; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 12px;" title="ট্রেইনিং বন্ধ করুন">
-                        <i class="fa-solid fa-stop"></i> থামান (Stop)
-                    </button>
-                    <button id="resumeTrainBtn" onclick="startLiveAutoTrain()" style="background: #34a853; color: white; border: none; padding: 6px 12px; border-radius: 10px; font-weight: 600; cursor: pointer; display: none; align-items: center; gap: 6px; font-size: 12px;" title="ট্রেইনিং পুনরায় চালু করুন">
-                        <i class="fa-solid fa-play"></i> শুরু করুন (Start)
-                    </button>
-                    <button class="icon-btn" onclick="closeTrainModal()" title="উইন্ডো বন্ধ করুন">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="modal-body">
-                <!-- Progress & Stats -->
-                <div class="progress-box">
-                    <div style="display: flex; justify-content: space-between; font-size: 13px;">
-                        <span id="trainStepLabel">শিক্ষক AI সক্রিয় হচ্ছে...</span>
-                        <span id="trainLossLabel" style="font-weight: 600; color: #4285f4;">Loss: --</span>
-                    </div>
-                    <div class="progress-bar-bg">
-                        <div class="progress-bar-fill" id="progressBarFill"></div>
-                    </div>
-                </div>
-
-                <!-- Live Dialogue Stream -->
-                <div id="dialogueContainer" style="display: flex; flex-direction: column; gap: 10px;">
-                    <!-- Real-time quiz cards will appear here -->
-                </div>
-
-                <!-- Event Terminal -->
-                <div class="log-terminal" id="logTerminal">
-                    > লাইভ ট্রেইনিং সেশন শুরু হয়েছে...
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
