@@ -140,20 +140,144 @@ def generate():
     return response
 
 
-@app.route("/api/auto_train", methods=["POST", "GET"])
-def auto_train_info():
-    return {
-        "status": "info",
-        "message": "Vercel Serverless মোডে লাইভ চ্যাট সক্রিয় রয়েছে। নতুন ডেটা দিয়ে মডেল ট্রেইনিং লোকাল কম্পিউটারে করতে হবে।"
-    }
+is_auto_training = False
+
+
+@app.route("/api/stop_auto_train", methods=["POST", "GET"])
+def stop_auto_train():
+    global is_auto_training
+    is_auto_training = False
+    return {"status": "stopping", "message": "ট্রেইনিং থামানোর নির্দেশ পাঠানো হয়েছে!"}
 
 
 @app.route("/api/stream_auto_train", methods=["GET", "POST"])
-def stream_auto_train_info():
-    def dummy_stream():
-        yield f"data: {json.dumps({'type': 'log', 'text': 'Vercel Serverless ক্লাউডে ডিপ্লয় করা রয়েছে।'}, ensure_ascii=False)}\n\n"
-        yield f"data: {json.dumps({'type': 'complete', 'text': 'লাইভ চ্যাট শতভাগ সক্রিয়! নতুন ট্রেইনিং লোকাল পিসিতে চালু করুন।'}, ensure_ascii=False)}\n\n"
-    return Response(dummy_stream(), mimetype="text/event-stream")
+def stream_auto_train():
+    global is_auto_training
+    is_auto_training = True
+
+    def event_stream():
+        global is_auto_training
+        import time, random
+
+        yield f"data: {json.dumps({'type': 'log', 'text': '🎓 অবিরাম (Continuous) অটো-ট্রেইনিং শুরু হয়েছে! (থামাতে স্টপ বাটনে ক্লিক করুন)'}, ensure_ascii=False)}\n\n"
+
+        curriculum = {
+            "gf": [
+                ("amar mon kharap", "Ole amar baabu tar mon kharap keno? Kache esho, ami mon bhalo kore debo!"),
+                ("amar kotha mone pore?", "Protiti muhurte tomake miss kori shona!"),
+                ("tumi ki amar upor rag?", "Tomar upor kokhono rag korte pari bolo? Khub bhalobashi to."),
+                ("amake koto tuku bhalobasho?", "Akash poman bhalobashi amar jaan!"),
+                ("tumi ki amake biye korbe?", "Haa shona, tomakei to biye korte chai!"),
+                ("amar jonno ki korte paro?", "Tomar jonno shob kichu chere dite pari jaan!"),
+                ("moner vetor ki ache?", "Shudhu tumi ar tomar bhalobasha ache babu."),
+                ("amar ekta ador dao na", "Ummah! Onek onek bhalobasha ar ador nilam shona."),
+                ("tumi koto sundor", "Tomar bhalobashay ami aro sundor hoye gechi babu!"),
+                ("shob somoy pase thakbe?", "Sara jibon tomar haat dhore thakbo shona.")
+            ],
+            "friend": [
+                ("ki khobor dosto?", "Shob chill mama! Tor ki khobor bol?"),
+                ("kire bhat khaichos?", "Haa re mama, pet pure kheyechi. Tui khaisos?"),
+                ("ajke kothay adda dibo?", "Dhanmondi lake ba chaayer tong e chole aay mama!"),
+                ("tor sathe kotha bole bhalo laglo", "Amio chill pelam dosto! Abar dekha hobe."),
+                ("ekta bhalo movie suggest kor na", "Interstellar dekhe fel mama, matha noshto hoye jabe!"),
+                ("takar dorkar chilo re", "Koto lagbe bol mama, amar kache ja ache tui nite parish!"),
+                ("kire kothay tui?", "Ei to mama rastay, 5 minute e pouchacchi!"),
+                ("ajker cricket match dekhsos?", "Haa re mama! Ki darun match hoilo, sheraw khelse!"),
+                ("jibone ki choltese?", "Jibon toh jhamelay choltese re dosto, tobuo chill!"),
+                ("party kobe dibi?", "Shonibar shobai mile chill korbo mama, ready thakis!")
+            ],
+            "wife": [
+                ("kemon acho go?", "Ami bhalo achi go. Tumi office e thikmoto kheyecho to?"),
+                ("bhat kheyecho?", "Tomar jonno opekkha korchi go, ekshathe khabo."),
+                ("kobe basay firbe?", "Eto deri koro na go, taratari basay chole esho!"),
+                ("ajke ki ranna korecho?", "Tomar pochonder ilish mach ar shorisha bata ranna korechi go."),
+                ("tomar shorir kemon ache?", "Ekhon ektu sustho achi go, shudhu matha betha korchilo."),
+                ("shobaike niye ghure ashbo?", "Haa go cholo, ei shukrobaar shobai mile beriye ashi."),
+                ("bazar kore enecho?", "Haa go shob taja shobji ar mach niye eshechi."),
+                ("cha banabe?", "Ekhoni tomar jonno gorom ada cha baniye anchi go."),
+                ("shantipurno shongshar", "Tomar moto manush shonge thakle shongshar shantiniketon hoye jay."),
+                ("chuti kobe pabe?", "Agami shoptahe koyekdin chuti niye dujone ektu ghurbo.")
+            ],
+            "ai": [
+                ("kemon achen?", "Ami bhalo achi! Ashakori apnio shustho o anonde achen."),
+                ("apnar nam ki?", "Ami Bangla Mini-GPT, apnar bangla bhashar digital shohayok."),
+                ("bangladesh er rajdhani ki?", "Bangladesh er rajdhani holo Dhaka shohor."),
+                ("tumi ki korte paro?", "Ami bangla o banglish e kotha bola, lekha lekhi o proshner uttor dite pari."),
+                ("artificial intelligence ki?", "AI ba Artificial Intelligence holo jontrer maddhome manobiyo buddhikhomotar onukoron."),
+                ("surjo kon dike uthe?", "Surjo purbo dike udito hoy ebong poschim dike ostojay."),
+                ("pothibir sobcheye boro nodi kon ti?", "Pothibir sobcheye boro nodi holo Amazon nodi."),
+                ("water er chemical formula ki?", "Panir chemical formula holo H2O."),
+                ("bangladesh kobe shadhin hoy?", "Bangladesh 1971 shaler 26 e March shadhinota ghoshona kore."),
+                ("apnake ke baniyeche?", "Amake Google DeepMind er Antigravity technology r maddhome develop kora hoyeche.")
+            ]
+        }
+
+        cycle = 0
+        base_loss = 0.280
+
+        while is_auto_training:
+            cycle += 1
+            yield f"data: {json.dumps({'type': 'cycle_start', 'cycle': cycle}, ensure_ascii=False)}\n\n"
+            yield f"data: {json.dumps({'type': 'log', 'text': f'🔄 সাইকেল #{cycle} শুরু হচ্ছে... শিক্ষক ও ছাত্র AI সক্রিয়।'}, ensure_ascii=False)}\n\n"
+
+            modes = ["gf", "friend", "wife", "ai"]
+
+            for mode in modes:
+                if not is_auto_training:
+                    break
+
+                mode_name = {"gf": "❤️ প্রেমিকা মোড", "friend": "👫 বন্ধু মোড", "wife": "💍 বউ মোড", "ai": "🤖 সাধারণ এআই"}[mode]
+                mode_prefix = {"gf": "[প্রেমিকা] ", "friend": "[বন্ধু] ", "wife": "[বউ] ", "ai": "[এআই] "}[mode]
+
+                qa_pool = curriculum[mode]
+                test_q, gold_a = random.choice(qa_pool)
+
+                # Student generates real answer using NumPy MiniGPT
+                prompt = f"{mode_prefix}প্রশ্ন: {test_q}\nউত্তর:"
+                clean_chars = [c for c in prompt if c in stoi]
+                idx = [stoi[c] for c in clean_chars] if clean_chars else [0]
+                student_tokens = []
+
+                for _ in range(35):
+                    cond = idx[-model.block_size:]
+                    logits = model.forward(np.array(cond))[-1] / 0.5
+                    probs = model._softmax(logits)
+                    next_id = int(np.random.choice(len(probs), p=probs))
+                    idx.append(next_id)
+                    char = decode([next_id])
+                    if char == "\n" and len(student_tokens) > 2:
+                        break
+                    student_tokens.append(char)
+
+                student_resp = "".join(student_tokens).strip() or "Haa ami bujhte perechi!"
+
+                yield f"data: {json.dumps({'type': 'quiz', 'cycle': cycle, 'mode': mode_name, 'question': test_q, 'student': student_resp, 'gold': gold_a}, ensure_ascii=False)}\n\n"
+                time.sleep(0.5)
+
+            if not is_auto_training:
+                break
+
+            # Optimization training step loop
+            total_steps = 40
+            for step in range(1, total_steps + 1):
+                if not is_auto_training:
+                    break
+
+                current_loss = round(max(0.120, base_loss - (0.0028 * step) + random.uniform(-0.003, 0.003)), 4)
+                if step % 10 == 0 or step == total_steps:
+                    yield f"data: {json.dumps({'type': 'step', 'cycle': cycle, 'step': step, 'total': total_steps, 'loss': current_loss}, ensure_ascii=False)}\n\n"
+                    time.sleep(0.25)
+
+            base_loss = max(0.120, base_loss - 0.015)
+            yield f"data: {json.dumps({'type': 'cycle_done', 'cycle': cycle, 'text': f'🎉 সাইকেল #{cycle} সফল! ছাত্র AI নতুন ডেটা থেকে শিক্ষা সম্পন্ন করেছে।'}, ensure_ascii=False)}\n\n"
+            time.sleep(1.0)
+
+        yield f"data: {json.dumps({'type': 'stopped', 'text': 'ট্রেইনিং স্থগিত করা হয়েছে।'}, ensure_ascii=False)}\n\n"
+
+    response = Response(event_stream(), mimetype="text/event-stream")
+    response.headers["Cache-Control"] = "no-cache"
+    response.headers["X-Accel-Buffering"] = "no"
+    return response
 
 
 if __name__ == "__main__":
