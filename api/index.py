@@ -108,7 +108,7 @@ def generate():
     max_tokens = int(data.get("max_tokens", 80))
 
     temperature = max(0.1, min(temperature, 1.5))
-    max_tokens = max(10, min(max_tokens, 150))
+    max_tokens = max(10, min(max_tokens, 300))
 
     def sse_stream():
         formatted_prompt = f"{mode_prefix}প্রশ্ন: {prompt}\nউত্তর:"
